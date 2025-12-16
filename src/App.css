@@ -1,0 +1,16 @@
+/* App.css - Updated for transparent navbar */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Remove the main margin-top since navbar is transparent on hero */
+main {
+  margin-top: 0;
+}
