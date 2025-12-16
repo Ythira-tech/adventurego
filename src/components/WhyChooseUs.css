@@ -12,10 +12,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/Adventure.jpeg');
+  background-image: url('https://i.pinimg.com/1200x/51/66/cd/5166cdcffce8ae20d7261b95c5ccc745.jpg');
   background-size: cover;
   background-position: center;
-  opacity: 0.5;
+  
   z-index: 0;
 }
 
