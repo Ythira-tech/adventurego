@@ -101,7 +101,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 25px;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 .destination-card {
@@ -361,7 +361,7 @@
 .destinations-cta {
   background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
   border-radius: 20px;
-  padding: 40px;
+  padding: 20px;
   text-align: center;
   color: white;
   margin-bottom: 40px;

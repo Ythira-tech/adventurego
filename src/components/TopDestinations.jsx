@@ -195,17 +195,6 @@ const TopDestinations = () => {
             </button>
           </div>
         </div>
-
-        {/* Mini Map Preview */}
-        <div className="map-preview">
-          <div className="map-placeholder">
-            <i className="fas fa-map"></i>
-            <p>Interactive East Africa Map Available</p>
-            <button className="btn btn-outline">
-              <i className="fas fa-expand-alt"></i> Open Full Map
-            </button>
-          </div>
-        </div>
       </div>
     </section>
   );

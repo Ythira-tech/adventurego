@@ -8,6 +8,10 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import PopularActivities from './components/PopularActivities';
 import TopDestinations from './components/TopDestinations';
+import AlphaWolves from './components/AlphaWolves';
+import UpcomingEvents from './components/UpcomingEvents';
+import AboutUs from './components/AboutUs';
+import Footer from './components/Footer';
 
 function App() {
   useEffect(() => {
@@ -26,7 +30,10 @@ function App() {
       <WhyChooseUs />
       <PopularActivities />
       <TopDestinations />
-      {/* Other pages/components will be added here */}
+      <AlphaWolves />
+      <UpcomingEvents />
+      <AboutUs />
+      <Footer />
     </div>
   );
 }
