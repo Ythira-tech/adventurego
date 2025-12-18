@@ -183,9 +183,7 @@ const TopDestinations = () => {
 
         {/* View All Button */}
         <div className="destinations-cta">
-          <p className="cta-text">
-            Want to explore all our destinations? We have packages for every type of traveler.
-          </p>
+          
           <div className="cta-buttons">
             <button className="btn btn-primary">
               <i className="fas fa-map-marked-alt"></i> View All Destinations
