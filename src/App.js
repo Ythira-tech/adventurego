@@ -27,11 +27,11 @@ function App() {
     <div className="App">
       <Navbar />
       <Home />
-      <WhyChooseUs />
-      <PopularActivities />
-      <TopDestinations />
-      <AlphaWolves />
       <UpcomingEvents />
+      <TopDestinations />
+      <PopularActivities />
+      <WhyChooseUs />
+      <AlphaWolves />
       <AboutUs />
       <Footer />
     </div>
