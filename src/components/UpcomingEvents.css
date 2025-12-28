@@ -1,12 +1,8 @@
 /* UpcomingEvents.css - WITH CARD BACKGROUND IMAGES */
 .upcoming-events {
   padding: 50px 0;
+  background-color: var(--off-white);
   position: relative;
-  background: 
-    url('https://i.pinimg.com/736x/0e/77/ba/0e77ba3426bc88e296dda891ace098dc.jpg');
-  background-size: cover;
-  background-position: center;
-  overflow: hidden;
 }
 
 /* Floating Animal Icons - VISIBLE VERSION */

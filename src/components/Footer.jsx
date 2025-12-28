@@ -5,7 +5,7 @@ const Footer = () => {
   const quickLinks = [
     { name: 'Home', url: '#' },
     { name: 'Safari Packages', url: '#' },
-    { name: 'Destinations', url: '#' },
+    { name: 'About Us', url: '#' },
     { name: 'Book Now', url: '#' },
     { name: 'Contact', url: '#' }
   ];

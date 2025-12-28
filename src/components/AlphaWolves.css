@@ -1,7 +1,7 @@
 /* AlphaWolves.css - Clean Single Row Layout */
 .alpha-wolves {
   padding: 80px 0;
-  background-color: var(--background-white);
+  background-color: var(--off-white);
   position: relative;
   overflow: hidden;
 }

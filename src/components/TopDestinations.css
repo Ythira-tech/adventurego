@@ -1,11 +1,8 @@
 /* TopDestinations.css */
 .top-destinations {
   padding: 80px 0;
+  background-color: var(--off-white);
   position: relative;
-  background: 
-     url('https://i.pinimg.com/736x/0e/77/ba/0e77ba3426bc88e296dda891ace098dc.jpg');
-  background-size: cover;
-  background-position: center;
 }
 
 /* Add a subtle background pattern */

@@ -80,19 +80,7 @@ const WhyChooseUs = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="why-cta">
-          <p className="cta-text">
-            <strong>Ready for an adventure crafted just for you?</strong> Our team is here to answer all your questions.
-          </p>
-          <div className="cta-buttons">
-            <button className="btn btn-primary">
-              <i className="fas fa-comments"></i> Chat With Our Experts
-            </button>
-            <button className="btn btn-outline">
-              <i className="fas fa-phone-alt"></i> Call Us Now
-            </button>
-          </div>
-        </div>
+        
       </div>
     </section>
   );

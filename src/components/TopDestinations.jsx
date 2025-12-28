@@ -28,7 +28,7 @@ const TopDestinations = () => {
     },
     {
       id: 3,
-      name: 'Mount Kilimanjaro',
+      name: 'Mt Kilimanjaro',
       country: 'Tanzania',
       flag: '🇹🇿',
       image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',

@@ -1,12 +1,8 @@
 /* PopularActivities.css */
 .popular-activities {
   padding: 80px 0;
+  background-color: var(--off-white);
   position: relative;
-   background: 
-    url('https://i.pinimg.com/736x/32/2e/84/322e842dceb4f7222eeac1da44034f48.jpg');
-  background-size: cover;
-  background-position: center;
-   /* Creates parallax effect */
 }
 
 /* Section Header */
