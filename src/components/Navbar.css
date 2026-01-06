@@ -113,7 +113,7 @@
 .nav-menu {
   display: flex;
   list-style: none;
-  gap: 50px;
+  gap: 30px; /* Reduced gap to accommodate more links */
   align-items: center;
   margin-right: 0; /* Ensure it's at the very end */
   padding: 0;
@@ -122,7 +122,7 @@
 .nav-link {
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: 1rem; /* Slightly smaller font for more links */
   color: var(--text-dark);
   text-decoration: none;
   padding: 10px 0;
@@ -153,9 +153,11 @@
 .nav-link.highlight {
   background-color: var(--primary-green);
   color: white !important;
-  padding: 12px 28px;
+  padding: 10px 22px; /* Slightly smaller padding */
   border-radius: 25px;
   transition: all 0.3s ease;
+  font-size: 0.95rem; /* Slightly smaller font */
+  margin-left: 5px;
 }
 
 .nav-link.highlight:hover {
@@ -189,7 +191,7 @@
 }
 
 .mobile-menu-container.active {
-  max-height: 400px;
+  max-height: 500px; /* Increased height for more links */
 }
 
 .mobile-menu {
@@ -197,7 +199,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px; /* Slightly smaller gap for mobile */
 }
 
 .mobile-link {
@@ -229,19 +231,28 @@
 /* Responsive Design */
 @media (max-width: 1200px) {
   .nav-menu {
-    gap: 40px;
+    gap: 25px;
   }
 }
 
 @media (max-width: 1100px) {
   .nav-menu {
-    gap: 35px;
+    gap: 20px;
+  }
+  
+  .nav-link {
+    font-size: 0.95rem;
+  }
+  
+  .nav-link.highlight {
+    padding: 8px 18px;
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 992px) {
   .nav-menu {
-    gap: 30px;
+    gap: 18px;
   }
   
   .logo-text {
@@ -251,11 +262,35 @@
   .logo-img {
     height: 42px;
   }
+  
+  .nav-link {
+    font-size: 0.9rem;
+  }
+  
+  .nav-link.highlight {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav-menu {
+    gap: 15px;
+  }
+  
+  .nav-link {
+    font-size: 0.85rem;
+  }
+  
+  .nav-link.highlight {
+    padding: 7px 14px;
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 850px) {
   .nav-menu {
-    gap: 25px;
+    gap: 12px;
   }
   
   .logo-text {
@@ -264,6 +299,14 @@
   
   .logo-img {
     height: 40px;
+  }
+  
+  .nav-link {
+    font-size: 0.82rem;
+  }
+  
+  .nav-link.highlight {
+    padding: 6px 12px;
   }
 }
 

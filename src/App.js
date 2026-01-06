@@ -1,6 +1,12 @@
 import React, { useEffect }  from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import Events from './pages/Events';
+import Safaris from './pages/Safaris';
+import Contact from './pages/Contact';
+import Booking from './pages/Booking';
+import Register from './pages/Register';
 import WhyChooseUs from './components/WhyChooseUs';
 import './App.css';
 
@@ -26,7 +32,15 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Home />
+       <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/safaris" element={<Safaris />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+
       <UpcomingEvents />
       <TopDestinations />
       <PopularActivities />
