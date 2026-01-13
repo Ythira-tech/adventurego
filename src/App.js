@@ -1,5 +1,5 @@
-import React, { useEffect }  from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom'; // Remove BrowserRouter
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Events from './pages/Events';
@@ -7,17 +7,11 @@ import Safaris from './pages/Safaris';
 import Contact from './pages/Contact';
 import Booking from './pages/Booking';
 import Register from './pages/Register';
-import WhyChooseUs from './components/WhyChooseUs';
+import Footer from './components/Footer';
 import './App.css';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import PopularActivities from './components/PopularActivities';
-import TopDestinations from './components/TopDestinations';
-import AlphaWolves from './components/AlphaWolves';
-import UpcomingEvents from './components/UpcomingEvents';
-import AboutUs from './components/AboutUs';
-import Footer from './components/Footer';
 
 function App() {
   useEffect(() => {
@@ -32,7 +26,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-       <Routes>
+      <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/events" element={<Events />} />
         <Route path="/safaris" element={<Safaris />} />
@@ -40,13 +34,6 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/register" element={<Register />} />
       </Routes>
-
-      <UpcomingEvents />
-      <TopDestinations />
-      <PopularActivities />
-      <WhyChooseUs />
-      <AlphaWolves />
-      <AboutUs />
       <Footer />
     </div>
   );

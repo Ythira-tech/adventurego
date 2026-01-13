@@ -1,9 +1,5 @@
 import React from 'react';
 import './Events.css';
-import event1 from '../assets/events/Adventure.jpeg';
-import event2 from '../assets/events/Advlogo.jpeg';
-import event3 from '../assets/events/Ololokwe.jpg';
-import event4 from '../assets/events/Waterfall.jpg';
 
 const Events = () => {
   const events = [
@@ -13,10 +9,12 @@ const Events = () => {
       date: 'March 15-17, 2024',
       location: 'Mount Kenya',
       description: 'Join our 3-day trekking challenge across Mount Kenya\'s scenic trails. Suitable for both beginners and experienced hikers.',
-      image: event1,
+      image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
       category: 'Adventure',
       price: '$299',
-      spots: '12/25 spots left'
+      duration: '3 days',
+      difficulty: 'Moderate',
+      spots: '12/25'
     },
     {
       id: 2,
@@ -24,10 +22,12 @@ const Events = () => {
       date: 'April 5-10, 2024',
       location: 'Maasai Mara National Reserve',
       description: 'Experience the great migration up close with expert guides. Luxury camping and photography workshops included.',
-      image: event2,
+      image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80',
       category: 'Wildlife',
       price: '$899',
-      spots: '5/15 spots left'
+      duration: '6 days',
+      difficulty: 'Easy',
+      spots: '5/15'
     },
     {
       id: 3,
@@ -35,10 +35,12 @@ const Events = () => {
       date: 'May 20-22, 2024',
       location: 'Lamu Island',
       description: 'Celebrate Swahili culture with traditional music, food, and crafts. Interactive workshops and cultural exchanges.',
-      image: event3,
+      image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
       category: 'Culture',
       price: '$199',
-      spots: '20/30 spots left'
+      duration: '3 days',
+      difficulty: 'Easy',
+      spots: '20/30'
     },
     {
       id: 4,
@@ -46,19 +48,81 @@ const Events = () => {
       date: 'June 8-9, 2024',
       location: 'Diani Beach',
       description: 'Combine beach relaxation with environmental conservation. Includes turtle watching and coral reef education.',
-      image: event4,
+      image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80',
       category: 'Conservation',
       price: '$149',
-      spots: '18/20 spots left'
+      duration: '2 days',
+      difficulty: 'Easy',
+      spots: '18/20'
+    },
+    {
+      id: 5,
+      title: 'Hot Air Balloon Safari',
+      date: 'July 12, 2024',
+      location: 'Serengeti',
+      description: 'Experience breathtaking views of the Serengeti plains from a hot air balloon. Includes champagne breakfast.',
+      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      category: 'Adventure',
+      price: '$450',
+      duration: '1 day',
+      difficulty: 'Easy',
+      spots: '8/12'
+    },
+    {
+      id: 6,
+      title: 'Gorilla Trekking Adventure',
+      date: 'August 3-6, 2024',
+      location: 'Bwindi Forest',
+      description: 'An unforgettable encounter with mountain gorillas in their natural habitat. Led by expert trackers.',
+      image: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      category: 'Wildlife',
+      price: '$1500',
+      duration: '4 days',
+      difficulty: 'Challenging',
+      spots: '6/10'
+    },
+    {
+      id: 7,
+      title: 'Desert Star Gazing',
+      date: 'September 15, 2024',
+      location: 'Samburu',
+      description: 'Experience the magic of the desert night sky with professional astronomers and traditional storytelling.',
+      image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      category: 'Nature',
+      price: '$120',
+      duration: '1 night',
+      difficulty: 'Easy',
+      spots: '15/20'
+    },
+    {
+      id: 8,
+      title: 'River Rafting Challenge',
+      date: 'October 20, 2024',
+      location: 'Tana River',
+      description: 'White water rafting adventure through rapids and calm waters. All equipment and safety gear provided.',
+      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      category: 'Extreme',
+      price: '$180',
+      duration: '1 day',
+      difficulty: 'Difficult',
+      spots: '10/15'
+    },
+    {
+      id: 9,
+      title: 'Bird Watching Expedition',
+      date: 'November 10-12, 2024',
+      location: 'Kakamega Forest',
+      description: 'Discover over 300 bird species in Kenya\'s only tropical rainforest. Guided by expert ornithologists.',
+      image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      category: 'Nature',
+      price: '$320',
+      duration: '3 days',
+      difficulty: 'Moderate',
+      spots: '14/18'
     }
   ];
 
-  const upcomingEvents = [
-    { id: 5, title: 'Hot Air Balloon Safari', date: 'July 12, 2024', location: 'Serengeti' },
-    { id: 6, title: 'Gorilla Trekking Adventure', date: 'August 3-6, 2024', location: 'Bwindi Forest' },
-    { id: 7, title: 'Desert Star Gazing', date: 'September 15, 2024', location: 'Samburu' },
-    { id: 8, title: 'River Rafting Challenge', date: 'October 20, 2024', location: 'Tana River' }
-  ];
+  const categories = ['All', 'Adventure', 'Wildlife', 'Culture', 'Conservation', 'Nature', 'Extreme'];
 
   return (
     <div className="events-page">
@@ -70,7 +134,7 @@ const Events = () => {
             <p>Join unforgettable experiences across East Africa. From mountain treks to wildlife safaris, find your next adventure.</p>
             <div className="hero-stats">
               <div className="stat">
-                <span className="number">48+</span>
+                <span className="number">{events.length}+</span>
                 <span className="label">Events This Year</span>
               </div>
               <div className="stat">
@@ -86,85 +150,125 @@ const Events = () => {
         </div>
       </section>
 
-      {/* Featured Events */}
-      <section className="featured-events">
+      {/* Events Grid Section */}
+      <section className="events-grid-section">
         <div className="container">
-          <div className="section-header">
-            <h2>Featured <span className="highlight">Events</span></h2>
-            <p>Hand-picked adventures for the ultimate experience</p>
+          {/* Filter Section */}
+          <div className="events-filter">
+            <div className="filter-header">
+              <h2>Discover Your Next Adventure</h2>
+              <p>Browse through our curated collection of upcoming events</p>
+            </div>
+            <div className="category-filters">
+              {categories.map((category, index) => (
+                <button 
+                  key={index} 
+                  className={`category-btn ${index === 0 ? 'active' : ''}`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+            <div className="search-filter">
+              <div className="search-box">
+                <i className="fas fa-search"></i>
+                <input type="text" placeholder="Search events..." />
+              </div>
+              <div className="sort-options">
+                <span>Sort by:</span>
+                <select>
+                  <option>Most Popular</option>
+                  <option>Price: Low to High</option>
+                  <option>Price: High to Low</option>
+                  <option>Date: Soonest</option>
+                </select>
+              </div>
+            </div>
           </div>
-          
-          <div className="events-grid">
+
+          {/* Events Grid */}
+          <div className="events-grid-container">
             {events.map(event => (
               <div key={event.id} className="event-card">
-                <div className="event-image">
+                {/* Card Image with Category Badge */}
+                <div className="card-image">
                   <img src={event.image} alt={event.title} />
-                  <span className="event-category">{event.category}</span>
-                </div>
-                <div className="event-content">
-                  <div className="event-meta">
-                    <span className="date"><i className="far fa-calendar"></i> {event.date}</span>
-                    <span className="location"><i className="fas fa-map-marker-alt"></i> {event.location}</span>
+                  <div className="category-badge">{event.category}</div>
+                  <div className="difficulty-badge difficulty-{event.difficulty.toLowerCase()}">
+                    {event.difficulty}
                   </div>
-                  <h3>{event.title}</h3>
-                  <p>{event.description}</p>
-                  <div className="event-footer">
-                    <div className="event-price">
-                      <span className="price">{event.price}</span>
-                      <span className="duration">per person</span>
+                </div>
+
+                {/* Card Content */}
+                <div className="card-content">
+                  <div className="card-header">
+                    <h3>{event.title}</h3>
+                    <div className="price-tag">{event.price}</div>
+                  </div>
+                  
+                  <p className="card-description">{event.description}</p>
+                  
+                  <div className="card-details">
+                    <div className="detail-item">
+                      <i className="far fa-calendar"></i>
+                      <span>{event.date}</span>
                     </div>
-                    <div className="event-availability">
-                      <span className="spots">{event.spots}</span>
-                      <button className="btn-book">Book Now</button>
+                    <div className="detail-item">
+                      <i className="fas fa-map-marker-alt"></i>
+                      <span>{event.location}</span>
                     </div>
+                    <div className="detail-item">
+                      <i className="far fa-clock"></i>
+                      <span>{event.duration}</span>
+                    </div>
+                  </div>
+
+                  {/* Progress Bar for Spots */}
+                  <div className="spots-progress">
+                    <div className="progress-header">
+                      <span>Available Spots</span>
+                      <span className="spots-count">{event.spots} left</span>
+                    </div>
+                    <div className="progress-bar">
+                      <div className="progress-fill" style={{ 
+                        width: `${(parseInt(event.spots.split('/')[0]) / parseInt(event.spots.split('/')[1])) * 100}%` 
+                      }}></div>
+                    </div>
+                  </div>
+
+                  {/* Card Footer */}
+                  <div className="card-footer">
+                    <button className="btn-details">
+                      <i className="far fa-eye"></i> View Details
+                    </button>
+                    <button className="btn-book">
+                      <i className="far fa-calendar-check"></i> Book Now
+                    </button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Upcoming Events */}
-      <section className="upcoming-events">
-        <div className="container">
-          <div className="section-header">
-            <h2>Upcoming <span className="highlight">Events</span></h2>
-            <p>Mark your calendar for these exciting adventures</p>
+          {/* Load More Button */}
+          <div className="load-more">
+            <button className="btn-load-more">
+              <i className="fas fa-sync-alt"></i> Load More Events
+            </button>
           </div>
-          
-          <div className="upcoming-list">
-            {upcomingEvents.map(event => (
-              <div key={event.id} className="upcoming-item">
-                <div className="upcoming-date">
-                  <div className="date-badge">
-                    <span className="month">{event.date.split(' ')[0]}</span>
-                    <span className="day">{event.date.split(' ')[1].replace(',', '')}</span>
-                  </div>
-                </div>
-                <div className="upcoming-details">
-                  <h4>{event.title}</h4>
-                  <p><i className="fas fa-map-marker-alt"></i> {event.location}</p>
-                </div>
-                <div className="upcoming-actions">
-                  <button className="btn-outline">Remind Me</button>
-                  <button className="btn-primary">Details</button>
-                </div>
+
+          {/* Newsletter CTA */}
+          <div className="newsletter-cta">
+            <div className="cta-icon">
+              <i className="far fa-envelope"></i>
+            </div>
+            <div className="cta-content">
+              <h3>Never Miss an Adventure</h3>
+              <p>Subscribe to our newsletter and be the first to know about new events and exclusive offers.</p>
+              <div className="subscribe-form">
+                <input type="email" placeholder="Enter your email address" />
+                <button className="btn-subscribe">Subscribe</button>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="events-cta">
-        <div className="container">
-          <div className="cta-content">
-            <h2>Can't Find What You're Looking For?</h2>
-            <p>Customize your own adventure or join our newsletter for exclusive event announcements.</p>
-            <div className="cta-buttons">
-              <button className="btn-primary">Customize Adventure</button>
-              <button className="btn-secondary">Subscribe to Newsletter</button>
             </div>
           </div>
         </div>

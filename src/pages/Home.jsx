@@ -1,11 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import UpcomingEvents from '../components/UpcomingEvents';
+import TopDestinations from '../components/TopDestinations';
+import PopularActivities from '../components/PopularActivities';
+import WhyChooseUs from '../components/WhyChooseUs';
+import AlphaWolves from '../components/AlphaWolves';
+import AboutUs from '../components/AboutUs';
+
+import pictureOne from '../assets/home/Home-1.JPG';
+import pictureTwo from '../assets/home/Night.jpg';
+import pictureThree from '../assets/home/Ololokwe.jpg';
+import pictureFour from '../assets/home/Falls.jpg';
 import './Home.css';
 
 const Home = () => {
   const slides = [
     {
       id: 1,
-      image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+      image: pictureOne,
       title: 'GO\nOUT\n&\nSTAY\nTHERE!',
       subtitle: 'AdventureGo East Africa',
       description: 'Where golden savannas meet majestic wildlife across Kenya, Tanzania, and Uganda.',
@@ -13,7 +24,7 @@ const Home = () => {
     },
     {
       id: 2,
-      image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+      image: pictureTwo,
       title: 'GO\nOUT\n&\nSTAY\nTHERE!',
       subtitle: 'AdventureGo East Africa',
       description: 'Challenge yourself with our expert-guided mountain expeditions.',
@@ -21,7 +32,7 @@ const Home = () => {
     },
     {
       id: 3,
-      image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+      image: pictureThree,
       title: 'GO\nOUT\n&\nSTAY\nTHERE!',
       subtitle: 'AdventureGo East Africa',
       description: 'Relax on untouched shores and experience Swahili coastal culture.',
@@ -29,7 +40,7 @@ const Home = () => {
     },
     {
       id: 4,
-      image: 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+      image: pictureFour,
       title: 'GO\nOUT\n&\nSTAY\nTHERE!',
       subtitle: 'AdventureGo East Africa',
       description: 'Connect authentically with East Africa\'s diverse cultures and traditions.',
@@ -152,6 +163,14 @@ const Home = () => {
           <div className="social-line"></div>
         </div>
       </section>
+
+      {/* Home Page Components */}
+      <UpcomingEvents />
+      <TopDestinations />
+      <PopularActivities />
+      <WhyChooseUs />
+      <AlphaWolves />
+      <AboutUs />
     </main>
   );
 };
