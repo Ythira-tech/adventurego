@@ -81,15 +81,6 @@ const Contact = () => {
                 <p>info@adventurego.com</p>
                 <p>support@adventurego.com</p>
               </div>
-
-              <div className="contact-card">
-                <div className="contact-icon">
-                  <i className="fas fa-clock"></i>
-                </div>
-                <h3>Working Hours</h3>
-                <p>Monday - Friday: 9am - 6pm</p>
-                <p>Saturday: 10am - 4pm</p>
-              </div>
             </div>
           </div>
 
@@ -163,29 +154,6 @@ const Contact = () => {
                 </button>
               </form>
             )}
-          </div>
-
-          {/* FAQ Section */}
-          <div className="faq-section">
-            <h2>Frequently Asked Questions</h2>
-            <div className="faq-grid">
-              <div className="faq-item">
-                <h3>How do I book a tour?</h3>
-                <p>You can book directly through our website, contact us via phone, or visit our office. Online booking is available 24/7.</p>
-              </div>
-              <div className="faq-item">
-                <h3>What payment methods do you accept?</h3>
-                <p>We accept credit/debit cards, bank transfers, and digital wallets. Payment plans are available for larger packages.</p>
-              </div>
-              <div className="faq-item">
-                <h3>Can I cancel or reschedule my booking?</h3>
-                <p>Yes, most bookings can be canceled or rescheduled up to 7 days before departure. See our cancellation policy for details.</p>
-              </div>
-              <div className="faq-item">
-                <h3>Do you offer group discounts?</h3>
-                <p>Absolutely! Groups of 6+ receive special discounts. Contact us directly for customized group packages.</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>

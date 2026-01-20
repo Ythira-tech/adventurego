@@ -1,0 +1,178 @@
+/* Terms.css */
+.terms-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Hero Section */
+.terms-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+              url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  text-align: center;
+  color: white;
+  padding: 0 20px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+}
+
+/* Terms Content */
+.terms-content {
+  background: white;
+  border-radius: 20px 20px 0 0;
+  margin-top: -50px;
+  position: relative;
+  z-index: 1;
+  padding: 4rem 0;
+}
+
+.content-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.terms-section {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border-left: 5px solid #667eea;
+  transition: transform 0.3s ease;
+}
+
+.terms-section:hover {
+  transform: translateX(10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.terms-section h2 {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.terms-section ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.terms-section li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  color: #555;
+  position: relative;
+  padding-left: 25px;
+}
+
+.terms-section li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #667eea;
+  font-weight: bold;
+}
+
+.terms-section li:last-child {
+  border-bottom: none;
+}
+
+/* Acceptance Box */
+.acceptance-box {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  padding: 2.5rem;
+  border-radius: 15px;
+  margin-top: 3rem;
+  text-align: center;
+  box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3);
+}
+
+.acceptance-box h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.acceptance-box p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .terms-hero {
+    height: 300px;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+  
+  .terms-section {
+    padding: 1.5rem;
+  }
+  
+  .terms-section h2 {
+    font-size: 1.3rem;
+  }
+  
+  .acceptance-box {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .terms-content {
+    padding: 3rem 0;
+  }
+  
+  .terms-section {
+    padding: 1rem;
+  }
+}

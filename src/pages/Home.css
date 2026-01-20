@@ -169,7 +169,7 @@
 
 .hero-title {
   font-family: 'Montserrat', sans-serif;
-  font-size: 4rem;
+  font-size: 3.5rem;
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: 25px;
@@ -266,7 +266,8 @@
   font-size: 1.1rem;
 }
 
-/* Slide Number */
+/* REMOVED Slide Number CSS */
+/*
 .slide-number {
   position: absolute;
   bottom: 40px;
@@ -293,6 +294,7 @@
   font-size: 1.5rem;
   color: rgba(255, 255, 255, 0.6);
 }
+*/
 
 /* Navigation Controls */
 .slide-nav {
@@ -375,72 +377,14 @@
   transition: width 5s linear;
 }
 
-/* Scroll Indicator */
-.scroll-indicator {
-  position: absolute;
-  bottom: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  z-index: 4;
-  opacity: 0.8;
-  animation: bounce 2s infinite;
-}
-
-.mouse {
-  width: 30px;
-  height: 50px;
-  border: 2px solid white;
-  border-radius: 15px;
-  position: relative;
-}
-
+/* REMOVED Scroll Indicator CSS - No longer needed */
+.scroll-indicator,
+.mouse,
 .wheel {
-  width: 4px;
-  height: 10px;
-  background-color: white;
-  border-radius: 2px;
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: scroll 2s infinite;
+  display: none;
 }
 
-@keyframes scroll {
-  0% {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-50%) translateY(20px);
-    opacity: 0;
-  }
-}
-
-.scroll-indicator span {
-  font-size: 0.9rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0) translateX(-50%);
-  }
-  40% {
-    transform: translateY(-10px) translateX(-50%);
-  }
-  60% {
-    transform: translateY(-5px) translateX(-50%);
-  }
-}
-
-/* Social Media */
+/* Social Media - UPDATED */
 .hero-social {
   position: absolute;
   left: 40px;
@@ -454,8 +398,8 @@
 }
 
 .social-link {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -465,12 +409,27 @@
   justify-content: center;
   text-decoration: none;
   transition: all 0.3s ease;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .social-link:hover {
   background-color: var(--primary-green);
-  transform: translateX(5px);
+  transform: translateX(5px) scale(1.1);
+  border-color: var(--primary-green);
+}
+
+/* Different colors on hover for each social media */
+.social-link:nth-child(1):hover { /* Instagram */
+  background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+}
+
+.social-link:nth-child(2):hover { /* Facebook */
+  background-color: #1877F2;
+}
+
+.social-link:nth-child(3):hover { /* WhatsApp */
+  background-color: #25D366;
 }
 
 .social-line {
@@ -514,8 +473,9 @@
     right: 20px;
   }
   
-  .slide-number, .slide-dots {
+  .slide-dots {
     bottom: 30px;
+    right: 20px;
   }
   
   .hero-social {
@@ -546,14 +506,9 @@
     max-width: 300px;
   }
   
-  .slide-number {
-    left: 20px;
-    bottom: 80px;
-  }
-  
   .slide-dots {
-    right: 20px;
     bottom: 80px;
+    right: 20px;
   }
   
   .dot {
@@ -562,10 +517,6 @@
   
   .hero-social {
     display: none;
-  }
-  
-  .scroll-indicator {
-    bottom: 120px;
   }
 }
 
@@ -577,14 +528,6 @@
   .hero-subtitle {
     font-size: 0.9rem;
     letter-spacing: 2px;
-  }
-  
-  .current {
-    font-size: 2.5rem;
-  }
-  
-  .total {
-    font-size: 1.2rem;
   }
   
   .slide-nav {
