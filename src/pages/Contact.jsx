@@ -39,13 +39,7 @@ const Contact = () => {
     <div className="contact-page">
       {/* Hero Section */}
       <section className="contact-hero">
-        <div className="hero-overlay">
-          <div className="container">
-            <h1>Get In Touch</h1>
-            <p>Have questions about your next adventure? We're here to help!</p>
-          </div>
-        </div>
-      </section>
+        </section>
 
       <div className="container">
         {/* Contact Content */}
@@ -55,14 +49,6 @@ const Contact = () => {
             <p>Reach out to us through any of the channels below</p>
             
             <div className="contact-info-grid">
-              <div className="contact-card">
-                <div className="contact-icon">
-                  <i className="fas fa-map-marker-alt"></i>
-                </div>
-                <h3>Our Office</h3>
-                <p>123 Adventure Street</p>
-                <p>Kathmandu, Nepal 44600</p>
-              </div>
 
               <div className="contact-card">
                 <div className="contact-icon">

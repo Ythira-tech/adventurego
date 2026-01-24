@@ -2,10 +2,11 @@
 .why-choose-us-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Hero Section */
-.why-hero {
+.why-hero-section {
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
               url('https://images.unsplash.com/photo-1504851149312-7a075b496cc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
   background-size: cover;
@@ -16,7 +17,7 @@
   position: relative;
 }
 
-.hero-overlay {
+.why-hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -25,243 +26,318 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
 }
 
-.hero-content {
+.why-hero-content {
   text-align: center;
   color: white;
   padding: 0 20px;
+  max-width: 800px;
 }
 
-.hero-content h1 {
+.why-hero-title {
   font-size: 3.2rem;
   margin-bottom: 1rem;
   font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
 }
 
-.hero-subtitle {
+.why-hero-subtitle {
   font-size: 1.3rem;
   opacity: 0.9;
-  margin-bottom: 2rem;
+  font-weight: 300;
+  letter-spacing: 1px;
 }
 
 /* Stats Section */
-.why-stats {
+.why-stats-section {
   background: white;
   border-radius: 20px;
   margin: -50px auto 4rem;
   position: relative;
   z-index: 1;
   max-width: 1200px;
-  padding: 2rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
-.stats-grid {
+.why-stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
 }
 
-.stat-card {
+.why-stat-card {
   text-align: center;
-  padding: 2rem;
-  transition: transform 0.3s ease;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  border-right: 1px solid #eee;
 }
 
-.stat-card:hover {
+.why-stat-card:last-child {
+  border-right: none;
+}
+
+.why-stat-card:hover {
   transform: scale(1.05);
 }
 
-.stat-number {
+.why-stat-number {
   font-size: 3rem;
   font-weight: 700;
   color: #f5576c;
   margin-bottom: 0.5rem;
+  line-height: 1;
 }
 
-.stat-label {
+.why-stat-label {
   font-size: 1rem;
   color: #555;
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* Reasons Section */
-.reasons-section {
+.why-reasons-section {
   padding: 4rem 0;
   background: white;
 }
 
-.section-header {
+.why-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.why-section-header {
   text-align: center;
   margin-bottom: 3rem;
 }
 
-.section-header h2 {
+.why-section-title {
   font-size: 2.5rem;
   color: #2c3e50;
   margin-bottom: 1rem;
   font-weight: 700;
+  line-height: 1.2;
 }
 
-.section-header p {
+.why-section-description {
   color: #7f8c8d;
   font-size: 1.1rem;
   max-width: 600px;
   margin: 0 auto;
+  line-height: 1.6;
 }
 
-.reasons-grid {
+.why-reasons-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2rem;
+  gap: 2.2rem;
   margin-bottom: 4rem;
 }
 
-.reason-card {
+.why-reason-card {
   background: #f8f9fa;
   border-radius: 15px;
   padding: 2.5rem;
   text-align: center;
   transition: all 0.3s ease;
   border: 2px solid transparent;
+  height: 100%;
 }
 
-.reason-card:hover {
+.why-reason-card:hover {
   transform: translateY(-10px);
   border-color: #f5576c;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   background: white;
 }
 
-.reason-icon {
+.why-reason-icon {
   font-size: 3rem;
   margin-bottom: 1.5rem;
 }
 
-.reason-card h3 {
+.why-reason-title {
   font-size: 1.4rem;
   color: #2c3e50;
   margin-bottom: 1rem;
   font-weight: 600;
 }
 
-.reason-card p {
+.why-reason-description {
   color: #666;
   line-height: 1.6;
+  font-size: 1.02rem;
 }
 
 /* Testimonials */
-.testimonials {
+.why-testimonials-section {
   padding: 5rem 0;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
 }
 
-.testimonials h2 {
+.why-testimonials-title {
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 3rem;
   font-weight: 700;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.testimonials-grid {
+.why-testimonials-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2.2rem;
 }
 
-.testimonial-card {
+.why-testimonial-card {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 15px;
-  padding: 2rem;
-  transition: transform 0.3s ease;
+  padding: 2.2rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.testimonial-card:hover {
-  transform: translateY(-5px);
+.why-testimonial-card:hover {
+  transform: translateY(-8px);
   background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
-.testimonial-text {
+.why-testimonial-text {
   font-style: italic;
-  line-height: 1.6;
+  line-height: 1.7;
   margin-bottom: 1.5rem;
   font-size: 1.1rem;
+  position: relative;
+  padding-left: 1.5rem;
 }
 
-.testimonial-author {
+.why-testimonial-text:before {
+  content: '"';
+  position: absolute;
+  left: 0;
+  top: -10px;
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: serif;
+}
+
+.why-testimonial-author {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  padding-top: 1rem;
+  padding-top: 1.2rem;
 }
 
-.author-name {
+.why-author-name {
   font-weight: 600;
   font-size: 1.1rem;
+  margin-bottom: 0.3rem;
 }
 
-.author-location {
+.why-author-location {
   opacity: 0.8;
   font-size: 0.9rem;
-  margin-top: 0.3rem;
-}
-
-/* Container */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  font-style: italic;
 }
 
 /* Responsive Design */
 @media (max-width: 992px) {
-  .stats-grid {
+  .why-stats-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
   }
   
-  .reasons-grid {
+  .why-stat-card {
+    border-right: none;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 2rem;
+  }
+  
+  .why-stat-card:nth-child(3),
+  .why-stat-card:nth-child(4) {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .why-reasons-grid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
 }
 
 @media (max-width: 768px) {
-  .why-hero {
+  .why-hero-section {
     height: 350px;
   }
   
-  .hero-content h1 {
+  .why-hero-title {
     font-size: 2.5rem;
   }
   
-  .stats-grid {
-    grid-template-columns: 1fr;
+  .why-hero-subtitle {
+    font-size: 1.1rem;
   }
   
-  .stat-card {
-    padding: 1.5rem;
+  .why-stats-section {
+    margin: -40px auto 3rem;
+    padding: 2rem 1rem;
   }
   
-  .reason-card {
+  .why-stat-number {
+    font-size: 2.5rem;
+  }
+  
+  .why-section-title {
+    font-size: 2.2rem;
+  }
+  
+  .why-reason-card {
     padding: 2rem;
   }
 }
 
-@media (max-width: 480px) {
-  .hero-content h1 {
+@media (max-width: 576px) {
+  .why-hero-section {
+    height: 300px;
+  }
+  
+  .why-hero-title {
     font-size: 2rem;
   }
   
-  .hero-subtitle {
-    font-size: 1.1rem;
-  }
-  
-  .reasons-grid {
+  .why-stats-grid {
     grid-template-columns: 1fr;
   }
   
-  .testimonials h2 {
-    font-size: 2rem;
+  .why-stat-card {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1.5rem;
+  }
+  
+  .why-stat-card:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .why-reasons-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .why-testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .why-reasons-section {
+    padding: 3rem 0;
+  }
+  
+  .why-testimonials-section {
+    padding: 3rem 0;
   }
 }

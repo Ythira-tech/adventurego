@@ -134,61 +134,76 @@ const UpcomingEvents = () => {
     }
   };
 
+  // Handle view details button click
+  const handleViewDetails = (eventId) => {
+    console.log(`View details for event ${eventId}`);
+    // You can implement navigation or modal opening here
+    alert(`Viewing details for event ${eventId}`);
+  };
+
   return (
-    <section className="upcoming-events">
-      <div className="container">
-        <div className="events-header">
-          <h6 className="section-subtitle">Upcoming Events</h6>
-          <h2 className="section-title">Don't Miss These <span className="highlight">Adventures</span></h2>
-          <p className="section-description">Book your spot before they fill up.</p>
+    <section className="events-upcoming-section">
+      <div className="events-container">
+        <div className="events-header-section">
+          <h6 className="events-subtitle">Upcoming Events</h6>
+          <h2 className="events-title">Don't Miss These <span className="events-highlight">Adventures</span></h2>
+          <p className="events-description">Book your spot before they fill up.</p>
         </div>
 
-        <div className="scroll-container-wrapper">
+        <div className="events-scroll-wrapper">
           {/* Left Arrow */}
           {showLeftArrow && (
-            <button className="scroll-arrow left-arrow" onClick={scrollLeftArrow}>
+            <button className="events-scroll-arrow events-arrow-left" onClick={scrollLeftArrow}>
               <i className="fas fa-chevron-left"></i>
             </button>
           )}
 
           {/* Horizontal Scroll Container */}
           <div 
-            className="scroll-container"
+            className="events-scroll-container"
             ref={scrollContainerRef}
             onMouseDown={handleMouseDown}
             onMouseLeave={handleMouseLeave}
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
           >
-            <div className="cards-track">
+            <div className="events-cards-track">
               {events.map((event) => (
                 <div 
-                  className="event-card" 
+                  className="events-card-item" 
                   key={event.id}
                   style={{ backgroundImage: `url(${event.image})` }}
                 >
+                  {/* View Details Button */}
+                  <button 
+                    className="events-view-details-btn"
+                    onClick={() => handleViewDetails(event.id)}
+                  >
+                    <i className="fas fa-eye"></i> View Details
+                  </button>
+
                   {/* Content Overlay */}
-                  <div className="card-content">
-                    <div className="event-badge">{event.type}</div>
-                    <div className="event-info">
-                      <h3 className="event-title">{event.title}</h3>
-                      <div className="event-meta">
-                        <div className="meta-item">
+                  <div className="events-card-content">
+                    <div className="events-type-badge">{event.type}</div>
+                    <div className="events-info-section">
+                      <h3 className="events-card-title">{event.title}</h3>
+                      <div className="events-meta-info">
+                        <div className="events-meta-item">
                           <i className="fas fa-calendar-alt"></i>
                           <span>{event.date}</span>
                         </div>
-                        <div className="meta-item">
+                        <div className="events-meta-item">
                           <i className="fas fa-map-marker-alt"></i>
                           <span>{event.location}</span>
                         </div>
                       </div>
                     </div>
-                    <div className="event-footer">
-                      <div className="price-tag">
+                    <div className="events-card-footer">
+                      <div className="events-price-tag">
                         <i className="fas fa-tag"></i>
                         <span>{event.price}</span>
                       </div>
-                      <div className="seats-info">
+                      <div className="events-seats-info">
                         <i className="fas fa-users"></i>
                         <span>{event.seats} seats left</span>
                       </div>
@@ -201,19 +216,19 @@ const UpcomingEvents = () => {
 
           {/* Right Arrow */}
           {showRightArrow && (
-            <button className="scroll-arrow right-arrow" onClick={scrollRightArrow}>
+            <button className="events-scroll-arrow events-arrow-right" onClick={scrollRightArrow}>
               <i className="fas fa-chevron-right"></i>
             </button>
           )}
         </div>
 
-        <div className="scroll-indicator">
-          <div className="scroll-dots">
-            <div className="scroll-track">
-              <div className="scroll-thumb"></div>
+        <div className="events-scroll-indicator">
+          <div className="events-scroll-dots">
+            <div className="events-scroll-track">
+              <div className="events-scroll-thumb"></div>
             </div>
           </div>
-          <span className="scroll-hint">← Scroll or drag →</span>
+          <span className="events-scroll-hint">← Scroll or drag →</span>
         </div>
       </div>
     </section>

@@ -6,32 +6,32 @@ const UgandaDestinations = () => {
     {
       id: 1,
       name: 'Mt Elgon (Wagagai)',
-      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/4a/b1/2a/4ab12a56fdbbd1b9422550cf5455edd1.jpg'
     },
     {
       id: 2,
       name: 'Mt Elgon Traverse',
-      image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/736x/56/de/12/56de1205d88881629691daf29c7ee2ca.jpg'
     },
     {
       id: 3,
       name: 'Virunga Mountains',
-      image: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/1d/b0/8f/1db08f5f585c4d8cd24035382a4b3ca3.jpg'
     },
     {
       id: 4,
       name: 'Sipi Village',
-      image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/736x/35/77/c5/3577c5e1159e601ed5895d93c439a547.jpg'
     },
     {
       id: 5,
       name: 'Bwindi Forest',
-      image: 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/736x/8a/79/83/8a7983b7e5f61aba24a42c9d6329bf77.jpg'
     },
     {
       id: 6,
       name: 'Murchison Falls',
-      image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/736x/4f/fc/84/4ffc84cb985a075626662bea126f5ec7.jpg'
     }
   ];
 
@@ -64,13 +64,6 @@ const UgandaDestinations = () => {
                 </div>
               </div>
             ))}
-          </div>
-          
-          <div className="page-stats">
-            <div className="stat">
-              <span className="number">{destinations.length}</span>
-              <span className="label">Destinations</span>
-            </div>
           </div>
         </div>
       </section>

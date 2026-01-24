@@ -3,7 +3,7 @@ import UpcomingEvents from '../components/UpcomingEvents';
 import TopDestinations from '../components/TopDestinations';
 import PopularActivities from '../components/PopularActivities';
 import AlphaWolves from '../components/AlphaWolves';
-
+import Footer from '../components/Footer';
 
 import pictureOne from '../assets/home/Home-1.JPG';
 import pictureTwo from '../assets/home/Night.jpg';
@@ -175,6 +175,7 @@ const Home = () => {
       <TopDestinations />
       <PopularActivities />
       <AlphaWolves />
+      <Footer />
     </main>
   );
 };

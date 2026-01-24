@@ -132,20 +132,7 @@ const Events = () => {
           <div className="hero-content">
             <h1>Upcoming <span className="highlight">Adventures</span></h1>
             <p>Join unforgettable experiences across East Africa. From mountain treks to wildlife safaris, find your next adventure.</p>
-            <div className="hero-stats">
-              <div className="stat">
-                <span className="number">{events.length}+</span>
-                <span className="label">Events This Year</span>
-              </div>
-              <div className="stat">
-                <span className="number">2,500+</span>
-                <span className="label">Happy Adventurers</span>
-              </div>
-              <div className="stat">
-                <span className="number">15</span>
-                <span className="label">Expert Guides</span>
-              </div>
-            </div>
+            
           </div>
         </div>
       </section>

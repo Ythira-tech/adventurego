@@ -1,26 +1,26 @@
 /* UpcomingEvents.css - Horizontal Scroll Layout */
-.upcoming-events {
+.events-upcoming-section {
   padding: 60px 0;
   background-color: #f8f9fa;
   position: relative;
   overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.container {
+.events-container {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-.events-header {
+.events-header-section {
   text-align: center;
   max-width: 600px;
   margin: 0 auto 40px;
 }
 
-.section-subtitle {
-  font-family: 'Open Sans', sans-serif;
+.events-subtitle {
   font-size: 0.9rem;
   font-weight: 600;
   color: #2ecc71;
@@ -29,8 +29,7 @@
   margin-bottom: 8px;
 }
 
-.section-title {
-  font-family: 'Montserrat', sans-serif;
+.events-title {
   font-size: 2.2rem;
   font-weight: 800;
   color: #121212;
@@ -38,11 +37,11 @@
   line-height: 1.2;
 }
 
-.section-title .highlight {
+.events-title .events-highlight {
   color: #2ecc71;
 }
 
-.section-description {
+.events-description {
   font-size: 1rem;
   color: #666;
   max-width: 500px;
@@ -50,14 +49,14 @@
 }
 
 /* Scroll Container Wrapper */
-.scroll-container-wrapper {
+.events-scroll-wrapper {
   position: relative;
   width: 100%;
   padding: 0 40px;
 }
 
 /* Scroll Arrows */
-.scroll-arrow {
+.events-scroll-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -77,23 +76,23 @@
   transition: all 0.3s ease;
 }
 
-.scroll-arrow:hover {
+.events-scroll-arrow:hover {
   background-color: #2ecc71;
   color: white;
   transform: translateY(-50%) scale(1.1);
   box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3);
 }
 
-.left-arrow {
+.events-arrow-left {
   left: 0;
 }
 
-.right-arrow {
+.events-arrow-right {
   right: 0;
 }
 
 /* Horizontal Scroll Container */
-.scroll-container {
+.events-scroll-container {
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
@@ -104,16 +103,16 @@
   scroll-behavior: smooth;
 }
 
-.scroll-container::-webkit-scrollbar {
+.events-scroll-container::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Edge */
 }
 
-.scroll-container:active {
+.events-scroll-container:active {
   cursor: grabbing;
 }
 
 /* Cards Track */
-.cards-track {
+.events-cards-track {
   display: flex;
   gap: 25px;
   padding: 10px 5px;
@@ -121,7 +120,7 @@
 }
 
 /* Event Card */
-.event-card {
+.events-card-item {
   position: relative;
   width: 350px;
   height: 450px;
@@ -136,13 +135,56 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.event-card:hover {
+.events-card-item:hover {
   transform: translateY(-10px) scale(1.02);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
 }
 
+/* View Details Button */
+.events-view-details-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #2ecc71;
+  border: 2px solid #2ecc71;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(-10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.events-card-item:hover .events-view-details-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.events-view-details-btn:hover {
+  background: #2ecc71;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+}
+
+.events-view-details-btn:active {
+  transform: translateY(0);
+}
+
+.events-view-details-btn i {
+  font-size: 0.85rem;
+}
+
 /* Card Content Overlay */
-.card-content {
+.events-card-content {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -160,12 +202,12 @@
   transition: transform 0.3s ease;
 }
 
-.event-card:hover .card-content {
+.events-card-item:hover .events-card-content {
   transform: translateY(-5px);
 }
 
 /* Event Badge */
-.event-badge {
+.events-type-badge {
   position: absolute;
   top: -15px;
   left: 25px;
@@ -181,12 +223,11 @@
 }
 
 /* Event Info */
-.event-info {
+.events-info-section {
   margin-bottom: 15px;
 }
 
-.event-title {
-  font-family: 'Montserrat', sans-serif;
+.events-card-title {
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 10px;
@@ -194,13 +235,13 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.event-meta {
+.events-meta-info {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.meta-item {
+.events-meta-item {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -208,14 +249,14 @@
   opacity: 0.9;
 }
 
-.meta-item i {
+.events-meta-item i {
   color: #2ecc71;
   font-size: 0.8rem;
   width: 16px;
 }
 
 /* Event Footer */
-.event-footer {
+.events-card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -223,7 +264,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.price-tag, .seats-info {
+.events-price-tag, .events-seats-info {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -231,16 +272,16 @@
   font-weight: 600;
 }
 
-.price-tag i {
+.events-price-tag i {
   color: #ffd700;
 }
 
-.seats-info i {
+.events-seats-info i {
   color: #2ecc71;
 }
 
 /* Scroll Indicator */
-.scroll-indicator {
+.events-scroll-indicator {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -248,7 +289,7 @@
   margin-top: 30px;
 }
 
-.scroll-dots {
+.events-scroll-dots {
   width: 200px;
   height: 4px;
   background-color: rgba(0, 0, 0, 0.1);
@@ -257,13 +298,13 @@
   overflow: hidden;
 }
 
-.scroll-track {
+.events-scroll-track {
   width: 100%;
   height: 100%;
   position: relative;
 }
 
-.scroll-thumb {
+.events-scroll-thumb {
   position: absolute;
   left: 0;
   top: 0;
@@ -271,10 +312,10 @@
   width: 33.33%; /* Represents current scroll position */
   background-color: #2ecc71;
   border-radius: 2px;
-  animation: scrollThumb 3s ease-in-out infinite;
+  animation: eventsScrollThumb 3s ease-in-out infinite;
 }
 
-@keyframes scrollThumb {
+@keyframes eventsScrollThumb {
   0%, 100% {
     transform: translateX(0);
   }
@@ -283,7 +324,7 @@
   }
 }
 
-.scroll-hint {
+.events-scroll-hint {
   font-size: 0.9rem;
   color: #666;
   font-weight: 500;
@@ -293,13 +334,13 @@
   gap: 10px;
 }
 
-.scroll-hint::before {
+.events-scroll-hint::before {
   content: '←';
   color: #2ecc71;
   font-weight: bold;
 }
 
-.scroll-hint::after {
+.events-scroll-hint::after {
   content: '→';
   color: #2ecc71;
   font-weight: bold;
@@ -307,118 +348,143 @@
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-  .event-card {
+  .events-card-item {
     width: 320px;
     height: 420px;
   }
 }
 
 @media (max-width: 992px) {
-  .scroll-container-wrapper {
+  .events-scroll-wrapper {
     padding: 0 30px;
   }
   
-  .event-card {
+  .events-card-item {
     width: 300px;
     height: 400px;
   }
   
-  .scroll-arrow {
+  .events-scroll-arrow {
     width: 45px;
     height: 45px;
     font-size: 1.1rem;
   }
+  
+  .events-view-details-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 768px) {
-  .upcoming-events {
+  .events-upcoming-section {
     padding: 40px 0;
   }
   
-  .section-title {
+  .events-title {
     font-size: 1.8rem;
   }
   
-  .scroll-container-wrapper {
+  .events-scroll-wrapper {
     padding: 0 20px;
   }
   
-  .cards-track {
+  .events-cards-track {
     gap: 20px;
   }
   
-  .event-card {
+  .events-card-item {
     width: 280px;
     height: 380px;
   }
   
-  .event-title {
+  .events-card-title {
     font-size: 1.3rem;
   }
   
-  .scroll-arrow {
+  .events-scroll-arrow {
     width: 40px;
     height: 40px;
     font-size: 1rem;
     display: none; /* Hide arrows on mobile for cleaner look */
   }
   
-  .scroll-hint {
+  .events-view-details-btn {
+    padding: 7px 14px;
+    font-size: 0.8rem;
+    opacity: 1; /* Always show on mobile */
+    transform: translateY(0);
+    background: rgba(255, 255, 255, 0.9);
+  }
+  
+  .events-scroll-hint {
     font-size: 0.8rem;
   }
 }
 
 @media (max-width: 576px) {
-  .upcoming-events {
+  .events-upcoming-section {
     padding: 30px 0;
   }
   
-  .section-title {
+  .events-title {
     font-size: 1.6rem;
   }
   
-  .section-description {
+  .events-description {
     font-size: 0.9rem;
   }
   
-  .scroll-container-wrapper {
+  .events-scroll-wrapper {
     padding: 0 10px;
   }
   
-  .cards-track {
+  .events-cards-track {
     gap: 15px;
   }
   
-  .event-card {
+  .events-card-item {
     width: 260px;
     height: 360px;
   }
   
-  .card-content {
+  .events-card-content {
     padding: 20px;
   }
   
-  .event-title {
+  .events-card-title {
     font-size: 1.2rem;
   }
   
-  .event-badge {
+  .events-type-badge {
     font-size: 0.7rem;
     padding: 5px 12px;
   }
   
-  .scroll-indicator {
+  .events-view-details-btn {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+  
+  .events-scroll-indicator {
     margin-top: 20px;
   }
 }
 
 @media (max-width: 480px) {
-  .event-card {
+  .events-card-item {
     width: 240px;
     height: 340px;
   }
   
-  .cards-track {
+  .events-cards-track {
     gap: 12px;
+  }
+  
+  .events-view-details-btn {
+    top: 15px;
+    right: 15px;
+    padding: 5px 10px;
+    font-size: 0.7rem;
   }
 }

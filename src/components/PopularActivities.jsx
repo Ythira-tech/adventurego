@@ -88,37 +88,37 @@ const PopularActivities = () => {
   // Activities to display
   const displayedActivities = filteredActivities.slice(0, visibleCount);
 
-  // Filter options - ADDED 2 MORE BUTTONS
+  // Filter options
   const filters = [
     { id: 'all', label: 'All Activities' },
     { id: 'adventure', label: 'Adventure' },
     { id: 'wildlife', label: 'Wildlife' },
     { id: 'cultural', label: 'Cultural' },
     { id: 'leisure', label: 'Leisure' },
-    { id: 'scenic', label: 'Scenic' }, // ADDED
-    { id: 'specialty', label: 'Specialty' } // ADDED
+    { id: 'scenic', label: 'Scenic' },
+    { id: 'specialty', label: 'Specialty' }
   ];
 
   return (
-    <section className="popular-activities">
-      <div className="container">
+    <section className="activities-popular-section">
+      <div className="activities-container">
         {/* Section Header */}
-        <div className="activities-header">
-          <h6 className="section-subtitle">Experience Adventure</h6>
-          <h2 className="section-title">
-            Popular <span className="highlight">Activities</span>
+        <div className="activities-header-section">
+          <h6 className="activities-subtitle">Experience Adventure</h6>
+          <h2 className="activities-main-title">
+            Popular <span className="activities-highlight">Activities</span>
           </h2>
-          <p className="section-description">
+          <p className="activities-description">
             From thrilling safaris to cultural immersions, discover the activities that make East Africa unforgettable.
           </p>
         </div>
 
-        {/* Filter Buttons - NOW WITH 2 MORE */}
-        <div className="activities-filter">
+        {/* Filter Buttons */}
+        <div className="activities-filter-buttons">
           {filters.map(filter => (
             <button
               key={filter.id}
-              className={`filter-btn ${activeFilter === filter.id ? 'active' : ''}`}
+              className={`activities-filter-btn ${activeFilter === filter.id ? 'activities-filter-active' : ''}`}
               onClick={() => {
                 setActiveFilter(filter.id);
                 setVisibleCount(8);
@@ -130,21 +130,20 @@ const PopularActivities = () => {
         </div>
 
         {/* Activities Grid - PHOTOS ONLY */}
-        <div className="activities-grid">
+        <div className="activities-photos-grid">
           {displayedActivities.map((activity) => (
             <div 
-              className="activity-card" 
+              className="activities-photo-card" 
               key={activity.id}
-              data-aos="fade-up"
             >
               {/* Image Container - PHOTO ONLY */}
-              <div className="card-image">
-                <img src={activity.image} alt={activity.title} />
-                <div className="image-overlay"></div>
+              <div className="activities-photo-container">
+                <img src={activity.image} alt={activity.title} className="activities-photo-image" />
+                <div className="activities-photo-overlay"></div>
                 
                 {/* Title Label */}
-                <div className="title-label">
-                  <h3>{activity.title}</h3>
+                <div className="activities-title-container">
+                  <h3 className="activities-photo-title">{activity.title}</h3>
                 </div>
               </div>
             </div>
@@ -153,9 +152,9 @@ const PopularActivities = () => {
 
         {/* Load More Button */}
         {visibleCount < filteredActivities.length && (
-          <div className="view-more-container">
+          <div className="activities-load-more">
             <button 
-              className="btn btn-outline"
+              className="activities-more-btn"
               onClick={() => setVisibleCount(prev => prev + 8)}
             >
               <i className="fas fa-plus"></i> Load More Activities

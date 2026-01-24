@@ -6,12 +6,12 @@ const KenyaDestinations = () => {
     {
       id: 1,
       name: 'Aberdares',
-      image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/22/ec/10/22ec10ce2303b61ba40873f242ca3f3d.jpg'
     },
     {
       id: 2,
       name: 'Mt Kenya',
-      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/05/e8/31/05e831f17b50fe0f1d7c8f599cdd1b66.jpg'
     },
     {
       id: 3,
@@ -21,37 +21,32 @@ const KenyaDestinations = () => {
     {
       id: 4,
       name: 'Mt Elgon',
-      image: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      id: 5,
-      name: 'Mt Elgon Traverse',
-      image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/736x/56/de/12/56de1205d88881629691daf29c7ee2ca.jpg'
     },
     {
       id: 6,
       name: 'Mt Kenya Forest',
-      image: 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image:'https://i.pinimg.com/1200x/6b/7f/89/6b7f89619af793a673da59b7e6cf6140.jpg'
     },
     {
       id: 7,
       name: 'Giraffe Centre',
-      image: 'https://images.unsplash.com/photo-1573843989-c9d7ad3f2001?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/736x/4e/d8/03/4ed8030bbec4c114d373e043fc6a6ddd.jpg'
     },
     {
       id: 8,
       name: 'City Tour',
-      image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/736x/24/32/b6/2432b6784d4714baf2984a679fa87516.jpg'
     },
     {
       id: 9,
       name: 'Taita Hills',
-      image: 'https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/736x/0d/1f/e4/0d1fe4f99c5ab60e0210122d9afa3754.jpg'
     },
     {
       id: 10,
       name: 'Chalbi Desert',
-      image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/e1/69/95/e16995deca26567489c19152862e35d8.jpg'
     }
   ];
 
@@ -84,13 +79,6 @@ const KenyaDestinations = () => {
                 </div>
               </div>
             ))}
-          </div>
-          
-          <div className="page-stats">
-            <div className="stat">
-              <span className="number">{destinations.length}</span>
-              <span className="label">Destinations</span>
-            </div>
           </div>
         </div>
       </section>

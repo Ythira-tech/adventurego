@@ -9,21 +9,21 @@ const TopDestinations = () => {
       id: 'uganda',
       flag: '🇺🇬',
       color: '#FCD116',
-      image: 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+      image: 'https://i.pinimg.com/736x/25/69/58/25695845bc25becf80abe9c05ddfa770.jpg',
       buttonText: 'Explore Uganda'
     },
     {
       id: 'kenya',
       flag: '🇰🇪',
       color: '#000000',
-      image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+      image: 'https://i.pinimg.com/736x/0e/86/94/0e8694292b565f01c9ac6939c79bf927.jpg',
       buttonText: 'Discover Kenya'
     },
     {
       id: 'tanzania',
       flag: '🇹🇿',
       color: '#1EB53A',
-      image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+      image: 'https://i.pinimg.com/736x/60/c6/cf/60c6cf22adcdca3757c918fd3e4248ef.jpg',
       buttonText: 'Experience Tanzania'
     }
   ];

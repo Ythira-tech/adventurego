@@ -50,62 +50,62 @@ const Shop = () => {
   return (
     <div className="shop-page">
       {/* Hero Section */}
-      <section className="shop-hero">
-        <div className="hero-overlay">
-          <div className="container">
-            <div className="hero-content">
-              <h1>AdventureGo Shop</h1>
-              <p className="hero-subtitle">Gear Up for Your Next Adventure</p>
+      <section className="shop-hero-section">
+        <div className="shop-hero-overlay">
+          <div className="shop-container">
+            <div className="shop-hero-content">
+              <h1 className="shop-hero-title">AdventureGo Shop</h1>
+              <p className="shop-hero-subtitle">Gear Up for Your Next Adventure</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Products Grid */}
-      <section className="products-section">
-        <div className="container">
-          <div className="section-header">
-            <h2>Shop Adventure Gear</h2>
-            <p>Quality equipment and merchandise for your East African adventures</p>
+      <section className="shop-products-section">
+        <div className="shop-container">
+          <div className="shop-section-header">
+            <h2 className="shop-section-title">Shop Adventure Gear</h2>
+            <p className="shop-section-description">Quality equipment and merchandise for your East African adventures</p>
           </div>
 
-          <div className="products-grid">
+          <div className="shop-products-grid">
             {products.map(product => (
-              <div className="product-card" key={product.id}>
-                <div className="product-image">
+              <div className="shop-product-card" key={product.id}>
+                <div className="shop-product-image">
                   <img src={product.image} alt={product.name} />
-                  <span className="product-category">{product.category}</span>
+                  <span className="shop-product-category">{product.category}</span>
                 </div>
-                <div className="product-info">
-                  <h3>{product.name}</h3>
-                  <div className="product-price">{product.price}</div>
-                  <button className="add-to-cart">Add to Cart</button>
+                <div className="shop-product-info">
+                  <h3 className="shop-product-name">{product.name}</h3>
+                  <div className="shop-product-price">{product.price}</div>
+                  <button className="shop-add-to-cart">Add to Cart</button>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Shop Info */}
-          <div className="shop-info">
-            <div className="info-card">
-              <div className="info-icon">🚚</div>
-              <h3>Free Shipping</h3>
-              <p>On orders over $100</p>
+          <div className="shop-info-grid">
+            <div className="shop-info-card">
+              <div className="shop-info-icon">🚚</div>
+              <h3 className="shop-info-title">Free Shipping</h3>
+              <p className="shop-info-text">On orders over $100</p>
             </div>
-            <div className="info-card">
-              <div className="info-icon">↩️</div>
-              <h3>Easy Returns</h3>
-              <p>30-day return policy</p>
+            <div className="shop-info-card">
+              <div className="shop-info-icon">↩️</div>
+              <h3 className="shop-info-title">Easy Returns</h3>
+              <p className="shop-info-text">30-day return policy</p>
             </div>
-            <div className="info-card">
-              <div className="info-icon">💳</div>
-              <h3>Secure Payment</h3>
-              <p>100% secure transactions</p>
+            <div className="shop-info-card">
+              <div className="shop-info-icon">💳</div>
+              <h3 className="shop-info-title">Secure Payment</h3>
+              <p className="shop-info-text">100% secure transactions</p>
             </div>
-            <div className="info-card">
-              <div className="info-icon">📞</div>
-              <h3>Customer Support</h3>
-              <p>24/7 assistance</p>
+            <div className="shop-info-card">
+              <div className="shop-info-icon">📞</div>
+              <h3 className="shop-info-title">Customer Support</h3>
+              <p className="shop-info-text">24/7 assistance</p>
             </div>
           </div>
         </div>

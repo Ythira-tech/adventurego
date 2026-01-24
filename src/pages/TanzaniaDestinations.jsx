@@ -6,67 +6,67 @@ const TanzaniaDestinations = () => {
     {
       id: 1,
       name: 'Mt. Kilimanjaro',
-      image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/cc/86/5b/cc865b52a3d1cce78d91e973ba8507da.jpg'
     },
     {
       id: 2,
       name: 'Mt. Meru',
-      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/736x/5b/27/59/5b27593e178654767f44871d332bcc0d.jpg'
     },
     {
       id: 3,
       name: 'Mt Hanang',
-      image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/5d/49/a6/5d49a66a702941b61a9d99ca181ae4dc.jpg'
     },
     {
       id: 4,
       name: 'Kikuletwa Springs',
-      image: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/736x/54/71/eb/5471ebb466987c5ce770a5660bfb5ae3.jpg'
     },
     {
       id: 5,
       name: 'Materuni Falls',
-      image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/e4/20/94/e42094f13983d97ab67047a0811491b8.jpg'
     },
     {
       id: 6,
       name: 'Mt. Longido',
-      image: 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/37/80/27/378027ac501f033f7351437c04714ab1.jpg'
     },
     {
       id: 7,
       name: 'Mt Ol Doinyo Lengai',
-      image: 'https://images.unsplash.com/photo-1573843989-c9d7ad3f2001?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/ba/3d/da/ba3ddaf9aea76a08b9d53d753ca212ed.jpg'
     },
     {
       id: 8,
       name: 'Usambara Mountains',
-      image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/736x/f0/73/99/f0739977a12f11cd4678974b835ab07b.jpg'
     },
     {
       id: 9,
       name: 'Magoroto Forest',
-      image: 'https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/ca/cb/7e/cacb7e1b0438bb63031cb7f67731198d.jpg'
     },
     {
       id: 10,
       name: 'Pare Mountains',
-      image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/f0/44/c6/f044c6c5cd6ec0a0a02e07dd98204089.jpg'
     },
     {
       id: 11,
       name: 'Lake Duluti',
-      image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/de/b8/55/deb855a6f34f5f82e99da3d12cf7fc26.jpg'
     },
     {
       id: 12,
       name: 'Arusha National Park',
-      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/736x/a8/f9/a4/a8f9a4c9bd246daed6a88238860d5a99.jpg'
     },
     {
       id: 13,
       name: 'City Tour',
-      image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://i.pinimg.com/1200x/3a/eb/bd/3aebbd5b1b4e64f685d1193359b94440.jpg'
     }
   ];
 
@@ -99,13 +99,6 @@ const TanzaniaDestinations = () => {
                 </div>
               </div>
             ))}
-          </div>
-          
-          <div className="page-stats">
-            <div className="stat">
-              <span className="number">{destinations.length}</span>
-              <span className="label">Destinations</span>
-            </div>
           </div>
         </div>
       </section>

@@ -4,10 +4,11 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Events from './pages/Events';
 import Safaris from './pages/Safaris';
+import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import Booking from './pages/Booking';
 import Register from './pages/Register';
-import Footer from './components/Footer';
+
 import UgandaDestinations from './pages/UgandaDestinations';
 import KenyaDestinations from './pages/KenyaDestinations';
 import TanzaniaDestinations from './pages/TanzaniaDestinations';
@@ -39,6 +40,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/events" element={<Events />} />
         <Route path="/safaris" element={<Safaris />} />
+        <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/register" element={<Register />} />
@@ -53,7 +55,7 @@ function App() {
   <Route path="/privacy" element={<Privacy />} />
   <Route path="/terms" element={<Terms />} />
       </Routes>
-      <Footer />
+      
     </div>
   );
 }

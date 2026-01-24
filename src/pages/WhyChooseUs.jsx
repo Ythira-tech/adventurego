@@ -51,25 +51,25 @@ const WhyChooseUs = () => {
   return (
     <div className="why-choose-us-page">
       {/* Hero Section */}
-      <section className="why-hero">
-        <div className="hero-overlay">
-          <div className="container">
-            <div className="hero-content">
-              <h1>Why Choose AdventureGo?</h1>
-              <p className="hero-subtitle">East Africa's Most Trusted Adventure Company</p>
+      <section className="why-hero-section">
+        <div className="why-hero-overlay">
+          <div className="why-container">
+            <div className="why-hero-content">
+              <h1 className="why-hero-title">Why Choose AdventureGo?</h1>
+              <p className="why-hero-subtitle">East Africa's Most Trusted Adventure Company</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="why-stats">
-        <div className="container">
-          <div className="stats-grid">
+      <section className="why-stats-section">
+        <div className="why-container">
+          <div className="why-stats-grid">
             {stats.map((stat, index) => (
-              <div className="stat-card" key={index}>
-                <div className="stat-number">{stat.number}</div>
-                <div className="stat-label">{stat.label}</div>
+              <div className="why-stat-card" key={index}>
+                <div className="why-stat-number">{stat.number}</div>
+                <div className="why-stat-label">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -77,19 +77,19 @@ const WhyChooseUs = () => {
       </section>
 
       {/* Reasons Grid */}
-      <section className="reasons-section">
-        <div className="container">
-          <div className="section-header">
-            <h2>What Makes Us Different</h2>
-            <p>Discover why thousands of adventurers trust us with their East African journeys</p>
+      <section className="why-reasons-section">
+        <div className="why-container">
+          <div className="why-section-header">
+            <h2 className="why-section-title">What Makes Us Different</h2>
+            <p className="why-section-description">Discover why thousands of adventurers trust us with their East African journeys</p>
           </div>
 
-          <div className="reasons-grid">
+          <div className="why-reasons-grid">
             {reasons.map(reason => (
-              <div className="reason-card" key={reason.id}>
-                <div className="reason-icon">{reason.icon}</div>
-                <h3>{reason.title}</h3>
-                <p>{reason.description}</p>
+              <div className="why-reason-card" key={reason.id}>
+                <div className="why-reason-icon">{reason.icon}</div>
+                <h3 className="why-reason-title">{reason.title}</h3>
+                <p className="why-reason-description">{reason.description}</p>
               </div>
             ))}
           </div>
@@ -97,35 +97,35 @@ const WhyChooseUs = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="testimonials">
-        <div className="container">
-          <h2>What Our Adventurers Say</h2>
-          <div className="testimonials-grid">
-            <div className="testimonial-card">
-              <div className="testimonial-text">
+      <section className="why-testimonials-section">
+        <div className="why-container">
+          <h2 className="why-testimonials-title">What Our Adventurers Say</h2>
+          <div className="why-testimonials-grid">
+            <div className="why-testimonial-card">
+              <div className="why-testimonial-text">
                 "The most amazing safari experience! Our guide was incredibly knowledgeable and made sure we saw all the Big Five."
               </div>
-              <div className="testimonial-author">
-                <div className="author-name">Michael Johnson</div>
-                <div className="author-location">USA</div>
+              <div className="why-testimonial-author">
+                <div className="why-author-name">Michael Johnson</div>
+                <div className="why-author-location">USA</div>
               </div>
             </div>
-            <div className="testimonial-card">
-              <div className="testimonial-text">
+            <div className="why-testimonial-card">
+              <div className="why-testimonial-text">
                 "Climbing Kilimanjaro with AdventureGo was life-changing. The support team was exceptional every step of the way."
               </div>
-              <div className="testimonial-author">
-                <div className="author-name">Sarah Williams</div>
-                <div className="author-location">UK</div>
+              <div className="why-testimonial-author">
+                <div className="why-author-name">Sarah Williams</div>
+                <div className="why-author-location">UK</div>
               </div>
             </div>
-            <div className="testimonial-card">
-              <div className="testimonial-text">
+            <div className="why-testimonial-card">
+              <div className="why-testimonial-text">
                 "Perfect family adventure! The kids loved it, and everything was perfectly organized from start to finish."
               </div>
-              <div className="testimonial-author">
-                <div className="author-name">The Müller Family</div>
-                <div className="author-location">Germany</div>
+              <div className="why-testimonial-author">
+                <div className="why-author-name">The Müller Family</div>
+                <div className="why-author-location">Germany</div>
               </div>
             </div>
           </div>

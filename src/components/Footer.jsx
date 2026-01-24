@@ -5,7 +5,6 @@ import './Footer.css';
 const Footer = () => {
   // Updated Quick Links
   const quickLinks = [
-    { name: 'Home', url: '/' },
     { name: 'About Us', url: '/about' },
     { name: 'Shop', url: '/shop' },
     { name: 'Why Choose Us', url: '/why-choose-us' },
@@ -24,7 +23,6 @@ const Footer = () => {
   const contactInfo = [
     { type: 'phone', icon: 'fas fa-phone-alt', value: '+254 711 480 765', url: 'tel:+254711480765' },
     { type: 'email', icon: 'fas fa-envelope', value: 'hello@adventurego.co.ke', url: 'mailto:hello@adventurego.co.ke' },
-    { type: 'hours', icon: 'fas fa-clock', value: '24/7 Support', url: null }
   ];
 
   // Legal Links

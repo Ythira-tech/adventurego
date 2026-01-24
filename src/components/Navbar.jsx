@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-import logoImage from '../assets/Advlogo.jpeg';
+import logoImage from '../assets/Advlogo-removebg.png';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -28,6 +28,7 @@ const Navbar = () => {
     { text: 'Home', path: '/', active: true },
     { text: 'Events', path: '/events' },
     { text: 'Safaris+', path: '/safaris' },
+    { text: 'Blog', path: '/blog' },
     { text: 'Contact', path: '/contact' },
     { text: 'Book Now', path: '/booking', highlight: true },
     { text: 'Register', path: '/register' }
