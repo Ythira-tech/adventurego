@@ -42,36 +42,38 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState('right');
 
-  // Social Media Links - ADD YOUR REAL LINKS HERE
+  // Social Media Links
   const socialLinks = {
-    instagram: 'https://www.instagram.com/adventurego_kenya_?igsh=Z2VzeGo2aWxybG54', // Replace with your Instagram
-    facebook: 'https://www.facebook.com/share/1aYFgptMxd/',        // Replace with your Facebook
-    whatsapp: 'https://wa.me/254 711 480765'           // Replace with your WhatsApp
+    instagram: 'https://www.instagram.com/adventurego_kenya_?igsh=Z2VzeGo2aWxybG54',
+    facebook: 'https://www.facebook.com/share/1aYFgptMxd/',
+    whatsapp: 'https://wa.me/254 711 480765'
   };
 
-  // Auto-slide every 5 seconds
+  // Fix: Define nextSlide first with proper dependencies
+  const nextSlide = useCallback(() => {
+    setDirection('right');
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  }, [slides.length]); // ✅ Added slides.length dependency
+
+  // Fix: Define prevSlide with proper dependencies
+  const prevSlide = useCallback(() => {
+    setDirection('left');
+    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  }, [slides.length]); // ✅ Added slides.length dependency
+
+  // Fix: Auto-slide with nextSlide dependency
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
     }, 5000);
     return () => clearInterval(interval);
-  }, [currentSlide]);
+  }, [nextSlide]); // ✅ Added nextSlide dependency
 
-  const nextSlide = useCallback(() => {
-    setDirection('right');
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  }, [slides.length]);
-
-  const prevSlide = useCallback(() => {
-    setDirection('left');
-    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  }, []);
-
-  const goToSlide = (index) => {
+  const goToSlide = useCallback((index) => {
     if (index === currentSlide) return;
     setDirection(index > currentSlide ? 'right' : 'left');
     setCurrentSlide(index);
-  };
+  }, [currentSlide]); // ✅ Added currentSlide dependency
 
   return (
     <main className="home-page">
@@ -105,12 +107,6 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-
-              {/* REMOVED Slide Number Indicator */}
-              {/* <div className="slide-number">
-                <span className="current">0{index + 1}</span>
-                <span className="total">/0{slides.length}</span>
-              </div> */}
             </div>
           ))}
         </div>
@@ -137,7 +133,7 @@ const Home = () => {
           ))}
         </div>
 
-        {/* Social Media Quick Links - UPDATED WITH REAL LINKS */}
+        {/* Social Media Quick Links */}
         <div className="hero-social">
           <a 
             href={socialLinks.instagram} 
