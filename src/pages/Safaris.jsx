@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { api } from '../services/api';
 import './Safaris.css';
 import safari1 from '../assets/safaris/Bluesprings.jpg';
 import safari2 from '../assets/safaris/Budge.jpg';
@@ -6,56 +7,34 @@ import safari3 from '../assets/safaris/Bus.JPG';
 import safari4 from '../assets/safaris/Lake.jpg';
 
 const Safaris = () => {
-  const safaris = [
-    {
-      id: 1,
-      title: 'Maasai Mara Great Migration Safari',
-      duration: '5 Days / 4 Nights',
-      locations: ['Maasai Mara', 'Nairobi'],
-      highlights: ['Great Migration', 'Big Five', 'Hot Air Balloon', 'Cultural Visits'],
-      price: '$1,499',
-      rating: 4.9,
-      reviews: 127,
-      image: safari1,
-      featured: true
-    },
-    {
-      id: 2,
-      title: 'Serengeti Wilderness Expedition',
-      duration: '7 Days / 6 Nights',
-      locations: ['Serengeti', 'Ngorongoro'],
-      highlights: ['Lion Tracking', 'Wildebeest Crossing', 'Luxury Tents', 'Night Safaris'],
-      price: '$2,199',
-      rating: 4.8,
-      reviews: 89,
-      image: safari2,
-      featured: true
-    },
-    {
-      id: 3,
-      title: 'Amboseli Elephant Safari',
-      duration: '4 Days / 3 Nights',
-      locations: ['Amboseli', 'Kilimanjaro View'],
-      highlights: ['Elephant Herds', 'Kilimanjaro Views', 'Bird Watching', 'Maasai Village'],
-      price: '$899',
-      rating: 4.7,
-      reviews: 156,
-      image: safari3,
-      featured: false
-    },
-    {
-      id: 4,
-      title: 'Lake Nakuru Flamingo Safari',
-      duration: '3 Days / 2 Nights',
-      locations: ['Lake Nakuru', 'Lake Naivasha'],
-      highlights: ['Flamingo Flocks', 'Rhino Sanctuary', 'Hells Gate Biking', 'Boat Rides'],
-      price: '$649',
-      rating: 4.6,
-      reviews: 93,
-      image: safari4,
-      featured: false
+  const [safaris, setSafaris] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Special requests state
+  const [specialRequest, setSpecialRequest] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+
+  // Fetch safaris from backend
+  useEffect(() => {
+    fetchSafaris();
+  }, []);
+
+  const fetchSafaris = async () => {
+    try {
+      setLoading(true);
+      const data = await api.get('/safaris');
+      setSafaris(data);
+      setError(null);
+    } catch (error) {
+      console.error('Error fetching safaris:', error);
+      setError('Failed to load safaris. Please try again.');
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
   const safariTypes = [
     { icon: '🦁', name: 'Big Five Safari', count: '12 tours' },
@@ -65,6 +44,56 @@ const Safaris = () => {
     { icon: '🌙', name: 'Night Safari', count: '4 tours' },
     { icon: '🚶', name: 'Walking Safari', count: '7 tours' }
   ];
+
+  // Handle special request form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!specialRequest.trim()) return;
+    
+    setIsSubmitting(true);
+    setSubmitError(null);
+    
+    try {
+      await api.post('/safari-requests', { 
+        request: specialRequest,
+        type: 'special-request'
+      });
+      
+      setIsSubmitted(true);
+      setSpecialRequest('');
+      
+      setTimeout(() => setIsSubmitted(false), 5000);
+    } catch (error) {
+      console.error('Error submitting request:', error);
+      setSubmitError('Failed to submit request. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading safaris...</p>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="error-container">
+        <i className="fas fa-exclamation-circle"></i>
+        <h2>Oops! Something went wrong</h2>
+        <p>{error}</p>
+        <button className="retry-btn" onClick={fetchSafaris}>
+          <i className="fas fa-redo"></i> Try Again
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="safaris-page">
@@ -115,44 +144,56 @@ const Safaris = () => {
             <p>Our most popular and highly-rated safari packages</p>
           </div>
           
-          <div className="safaris-grid">
-            {safaris.map(safari => (
-              <div key={safari.id} className={`safari-card ${safari.featured ? 'featured' : ''}`}>
-                {safari.featured && <span className="featured-badge">Featured</span>}
-                <div className="safari-image">
-                  <img src={safari.image} alt={safari.title} />
-                  <div className="safari-rating">
-                    <i className="fas fa-star"></i>
-                    <span>{safari.rating}</span>
-                    <span className="reviews">({safari.reviews} reviews)</span>
-                  </div>
-                </div>
-                <div className="safari-content">
-                  <h3>{safari.title}</h3>
-                  <div className="safari-meta">
-                    <span className="duration"><i className="far fa-calendar"></i> {safari.duration}</span>
-                    <span className="locations"><i className="fas fa-map-marker-alt"></i> {safari.locations.join(', ')}</span>
-                  </div>
-                  <div className="safari-highlights">
-                    {safari.highlights.map((highlight, index) => (
-                      <span key={index} className="highlight-tag">{highlight}</span>
-                    ))}
-                  </div>
-                  <div className="safari-footer">
-                    <div className="safari-price">
-                      <span className="from">From</span>
-                      <span className="price">{safari.price}</span>
-                      <span className="per-person">per person</span>
-                    </div>
-                    <div className="safari-actions">
-                      <button className="btn-details">View Details</button>
-                      <button className="btn-book">Book Now</button>
+          {safaris.length === 0 ? (
+            <div className="no-safaris">
+              <i className="fas fa-paw"></i>
+              <h3>No Safaris Available</h3>
+              <p>Check back soon for new safari packages.</p>
+            </div>
+          ) : (
+            <div className="safaris-grid">
+              {safaris.map(safari => (
+                <div key={safari.id} className={`safari-card ${safari.featured ? 'featured' : ''}`}>
+                  {safari.featured && <span className="featured-badge">Featured</span>}
+                  <div className="safari-image">
+                    <img src={safari.image || safari1} alt={safari.title} />
+                    <div className="safari-rating">
+                      <i className="fas fa-star"></i>
+                      <span>{safari.rating || 4.5}</span>
+                      <span className="reviews">({safari.reviews || 100} reviews)</span>
                     </div>
                   </div>
+                  <div className="safari-content">
+                    <h3>{safari.title}</h3>
+                    <div className="safari-meta">
+                      <span className="duration">
+                        <i className="far fa-calendar"></i> {safari.duration || '5 Days / 4 Nights'}
+                      </span>
+                      <span className="locations">
+                        <i className="fas fa-map-marker-alt"></i> {safari.locations?.join(', ') || 'Various Locations'}
+                      </span>
+                    </div>
+                    <div className="safari-highlights">
+                      {safari.highlights?.map((highlight, index) => (
+                        <span key={index} className="highlight-tag">{highlight}</span>
+                      ))}
+                    </div>
+                    <div className="safari-footer">
+                      <div className="safari-price">
+                        <span className="from">From</span>
+                        <span className="price">{safari.price || '$0'}</span>
+                        <span className="per-person">per person</span>
+                      </div>
+                      <div className="safari-actions">
+                        <button className="btn-details">View Details</button>
+                        <button className="btn-book">Book Now</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -208,23 +249,76 @@ const Safaris = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="safari-cta">
+      {/* Special Requests Only */}
+      <section className="safari-requests-section">
         <div className="container">
-          <div className="cta-content">
-            <h2>Ready for Your Adventure?</h2>
-            <p>Contact our safari experts to customize your perfect wildlife experience</p>
-            <div className="cta-buttons">
-              <button className="btn-primary">
-                <i className="fas fa-phone-alt"></i> Call Us: +254 700 123 456
-              </button>
-              <button className="btn-secondary">
-                <i className="fas fa-comments"></i> Live Chat
-              </button>
-              <button className="btn-outline">
-                <i className="fas fa-file-alt"></i> Get Custom Quote
-              </button>
-            </div>
+          <div className="requests-content">
+            {isSubmitted ? (
+              <div className="success-message">
+                <i className="fas fa-check-circle"></i>
+                <h2>Request Sent Successfully!</h2>
+                <p>Thank you for your special requests. Our safari experts will contact you to discuss your preferences.</p>
+                <button 
+                  className="btn-new-request"
+                  onClick={() => setIsSubmitted(false)}
+                >
+                  <i className="fas fa-plus"></i> Make Another Request
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="requests-header">
+                  <h2>Have <span className="highlight">Special Requests?</span></h2>
+                  <p>Tell us about your preferences and we'll customize your safari experience.</p>
+                </div>
+
+                {submitError && (
+                  <div className="error-message">
+                    <i className="fas fa-exclamation-circle"></i>
+                    <p>{submitError}</p>
+                  </div>
+                )}
+
+                <form className="requests-form" onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="specialRequests">
+                      <i className="fas fa-comment-dots"></i> Special Requests & Preferences *
+                    </label>
+                    <textarea
+                      id="specialRequests"
+                      name="specialRequests"
+                      value={specialRequest}
+                      onChange={(e) => setSpecialRequest(e.target.value)}
+                      placeholder="Tell us about your preferences: dietary restrictions, accommodation preferences, specific animals you want to see, photography needs, special occasions, etc."
+                      rows="6"
+                      required
+                      disabled={isSubmitting}
+                    />
+                    <div className="char-count">
+                      {specialRequest.length}/500 characters
+                    </div>
+                  </div>
+
+                  <div className="form-footer">
+                    <button 
+                      type="submit" 
+                      className="submit-request-btn"
+                      disabled={isSubmitting || !specialRequest.trim()}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <i className="fas fa-spinner fa-spin"></i> Sending Request...
+                        </>
+                      ) : (
+                        <>
+                          <i className="fas fa-paper-plane"></i> Send Request to Our Team
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
           </div>
         </div>
       </section>

@@ -1,69 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { api } from '../services/api';
 import './UpcomingEvents.css';
 
 const UpcomingEvents = () => {
-  const events = [
-    { 
-      id: 1, 
-      title: 'Mangunyo Forest, Aberdares', 
-      date: 'Dec 6', 
-      location: 'Aberdares National Park', 
-      type: 'Hiking', 
-      price: 'Ksh.3,850', 
-      seats: 4,
-      image: 'https://www.lakenakurukenya.com/wp-content/uploads/2022/04/aberdare3-750x450.jpg'
-    },
-    { 
-      id: 2, 
-      title: 'Mt. Ol Doinyo Lengai', 
-      date: 'Dec 12-14', 
-      location: 'Tanzania', 
-      type: 'Adventure', 
-      price: 'Ksh.54,900', 
-      seats: 8,
-      image: 'https://www.lightsonafrica.com/wp-content/uploads/2024/07/Ol-Doinyo-Lengai-Mountain-Lake-Natron-Tanzania.jpg'
-    },
-    { 
-      id: 3, 
-      title: 'Chyulu Hills', 
-      date: 'Dec 22-23', 
-      location: 'Amboselli', 
-      type: 'Wildlife', 
-      price: 'Ksh.15,000', 
-      seats: 2,
-      image: 'https://www.amboseliparkkenya.com/wp-content/uploads/2024/10/chyulu-hills-safari-lodges-ol-donyo-800x500-163-1.jpg'
-    },
-    { 
-      id: 4, 
-      title: 'Photography Workshop', 
-      date: 'Oct 3-8', 
-      location: 'Amboseli', 
-      type: 'Workshop', 
-      price: 'Contact for Price', 
-      seats: 10,
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    },
-    { 
-      id: 5, 
-      title: 'Maasai Mara Safari', 
-      date: 'Jan 15-18', 
-      location: 'Narok', 
-      type: 'Wildlife', 
-      price: 'Ksh.22,500', 
-      seats: 6,
-      image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    },
-    { 
-      id: 6, 
-      title: 'Mt. Kenya Summit', 
-      date: 'Feb 5-7', 
-      location: 'Nyeri', 
-      type: 'Hiking', 
-      price: 'Ksh.18,900', 
-      seats: 3,
-      image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    }
-  ];
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [imageErrors, setImageErrors] = useState({});
 
   const scrollContainerRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -72,7 +16,29 @@ const UpcomingEvents = () => {
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
 
-  // Check scroll position to show/hide arrows
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      setLoading(true);
+      const data = await api.get('/events');
+      console.log('Events loaded:', data);
+      setEvents(data);
+      setError(null);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+      setError('Failed to load events. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleImageError = (eventId) => {
+    setImageErrors(prev => ({ ...prev, [eventId]: true }));
+  };
+
   const checkScrollPosition = () => {
     const container = scrollContainerRef.current;
     if (container) {
@@ -90,9 +56,8 @@ const UpcomingEvents = () => {
       container.addEventListener('scroll', checkScrollPosition);
       return () => container.removeEventListener('scroll', checkScrollPosition);
     }
-  }, []);
+  }, [events]);
 
-  // Mouse drag functionality
   const handleMouseDown = (e) => {
     setIsDragging(true);
     setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
@@ -115,31 +80,20 @@ const UpcomingEvents = () => {
     scrollContainerRef.current.scrollLeft = scrollLeft - walk;
   };
 
-  // Arrow navigation
   const scrollLeftArrow = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({
-        left: -400,
-        behavior: 'smooth'
-      });
+      scrollContainerRef.current.scrollBy({ left: -400, behavior: 'smooth' });
     }
   };
 
   const scrollRightArrow = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({
-        left: 400,
-        behavior: 'smooth'
-      });
+      scrollContainerRef.current.scrollBy({ left: 400, behavior: 'smooth' });
     }
   };
 
-  // Handle view details button click
-  const handleViewDetails = (eventId) => {
-    console.log(`View details for event ${eventId}`);
-    // You can implement navigation or modal opening here
-    alert(`Viewing details for event ${eventId}`);
-  };
+  if (loading) return <div className="loading">Loading events...</div>;
+  if (error) return <div className="error">{error}</div>;
 
   return (
     <section className="events-upcoming-section">
@@ -150,77 +104,92 @@ const UpcomingEvents = () => {
           <p className="events-description">Book your spot before they fill up.</p>
         </div>
 
-        <div className="events-scroll-wrapper">
-          {/* Left Arrow */}
-          {showLeftArrow && (
-            <button className="events-scroll-arrow events-arrow-left" onClick={scrollLeftArrow}>
-              <i className="fas fa-chevron-left"></i>
-            </button>
-          )}
+        {events.length === 0 ? (
+          <div className="no-events">No upcoming events</div>
+        ) : (
+          <div className="events-scroll-wrapper">
+            {showLeftArrow && (
+              <button className="events-scroll-arrow events-arrow-left" onClick={scrollLeftArrow}>
+                <i className="fas fa-chevron-left"></i>
+              </button>
+            )}
 
-          {/* Horizontal Scroll Container */}
-          <div 
-            className="events-scroll-container"
-            ref={scrollContainerRef}
-            onMouseDown={handleMouseDown}
-            onMouseLeave={handleMouseLeave}
-            onMouseUp={handleMouseUp}
-            onMouseMove={handleMouseMove}
-          >
-            <div className="events-cards-track">
-              {events.map((event) => (
-                <div 
-                  className="events-card-item" 
-                  key={event.id}
-                  style={{ backgroundImage: `url(${event.image})` }}
-                >
-                  {/* View Details Button */}
-                  <button 
-                    className="events-view-details-btn"
-                    onClick={() => handleViewDetails(event.id)}
+            <div 
+              className="events-scroll-container"
+              ref={scrollContainerRef}
+              onMouseDown={handleMouseDown}
+              onMouseLeave={handleMouseLeave}
+              onMouseUp={handleMouseUp}
+              onMouseMove={handleMouseMove}
+            >
+              <div className="events-cards-track">
+                {events.map((event) => (
+                  <div 
+                    className="events-card-item" 
+                    key={event.id}
+                    style={{ 
+                      backgroundImage: imageErrors[event.id] 
+                        ? 'none' 
+                        : `url(http://localhost:5000${event.image}?t=${Date.now()})`,
+                      backgroundColor: imageErrors[event.id] ? '#2ecc71' : 'transparent'
+                    }}
                   >
-                    <i className="fas fa-eye"></i> View Details
-                  </button>
+                    {imageErrors[event.id] && (
+                      <div style={{ 
+                        color: 'white', 
+                        padding: '20px', 
+                        textAlign: 'center',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        {event.title}
+                      </div>
+                    )}
+                    
+                    <Link to={`/events/${event.slug}`} className="events-view-details-btn">
+                      <i className="fas fa-eye"></i> View Details
+                    </Link>
 
-                  {/* Content Overlay */}
-                  <div className="events-card-content">
-                    <div className="events-type-badge">{event.type}</div>
-                    <div className="events-info-section">
-                      <h3 className="events-card-title">{event.title}</h3>
-                      <div className="events-meta-info">
-                        <div className="events-meta-item">
-                          <i className="fas fa-calendar-alt"></i>
-                          <span>{event.date}</span>
-                        </div>
-                        <div className="events-meta-item">
-                          <i className="fas fa-map-marker-alt"></i>
-                          <span>{event.location}</span>
+                    <div className="events-card-content">
+                      <div className="events-type-badge">{event.type}</div>
+                      <div className="events-info-section">
+                        <h3 className="events-card-title">{event.title}</h3>
+                        <div className="events-meta-info">
+                          <div className="events-meta-item">
+                            <i className="fas fa-calendar-alt"></i>
+                            <span>{event.date}</span>
+                          </div>
+                          <div className="events-meta-item">
+                            <i className="fas fa-map-marker-alt"></i>
+                            <span>{event.location}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="events-card-footer">
-                      <div className="events-price-tag">
-                        <i className="fas fa-tag"></i>
-                        <span>{event.price}</span>
-                      </div>
-                      <div className="events-seats-info">
-                        <i className="fas fa-users"></i>
-                        <span>{event.seats} seats left</span>
+                      <div className="events-card-footer">
+                        <div className="events-price-tag">
+                          <i className="fas fa-tag"></i>
+                          <span>{event.price}</span>
+                        </div>
+                        <div className="events-seats-info">
+                          <i className="fas fa-users"></i>
+                          <span>{event.seats} seats left</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Right Arrow */}
-          {showRightArrow && (
-            <button className="events-scroll-arrow events-arrow-right" onClick={scrollRightArrow}>
-              <i className="fas fa-chevron-right"></i>
-            </button>
-          )}
-        </div>
+            {showRightArrow && (
+              <button className="events-scroll-arrow events-arrow-right" onClick={scrollRightArrow}>
+                <i className="fas fa-chevron-right"></i>
+              </button>
+            )}
+          </div>
+        )}
 
         <div className="events-scroll-indicator">
           <div className="events-scroll-dots">

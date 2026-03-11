@@ -11,6 +11,7 @@ import pictureThree from '../assets/home/Ololokwe.jpg';
 import pictureFour from '../assets/home/Hike.jpg';
 import './Home.css';
 
+
 const Home = () => {
   const slides = [
     {
@@ -49,31 +50,31 @@ const Home = () => {
     whatsapp: 'https://wa.me/254 711 480765'
   };
 
-  // Fix: Define nextSlide first with proper dependencies
+  // Define nextSlide FIRST with proper dependencies
   const nextSlide = useCallback(() => {
     setDirection('right');
     setCurrentSlide((prev) => (prev + 1) % slides.length);
-  }, [slides.length]); // ✅ Added slides.length dependency
+  }, [slides.length]); // ✅ FIXED: Added slides.length dependency
 
-  // Fix: Define prevSlide with proper dependencies
+  // Define prevSlide with proper dependencies
   const prevSlide = useCallback(() => {
     setDirection('left');
     setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  }, [slides.length]); // ✅ Added slides.length dependency
+  }, [slides.length]); // ✅ FIXED: Added slides.length dependency
 
-  // Fix: Auto-slide with nextSlide dependency
+  // Now useEffect can use nextSlide properly
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
     }, 5000);
     return () => clearInterval(interval);
-  }, [nextSlide]); // ✅ Added nextSlide dependency
+  }, [nextSlide]); // ✅ FIXED: Added nextSlide dependency
 
   const goToSlide = useCallback((index) => {
     if (index === currentSlide) return;
     setDirection(index > currentSlide ? 'right' : 'left');
     setCurrentSlide(index);
-  }, [currentSlide]); // ✅ Added currentSlide dependency
+  }, [currentSlide]);
 
   return (
     <main className="home-page">

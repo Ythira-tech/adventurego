@@ -1,51 +1,73 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { api } from '../services/api';
 import './Shop.css';
 
 const Shop = () => {
-  const products = [
-    {
-      id: 1,
-      name: 'AdventureGo T-Shirt',
-      price: '$29.99',
-      image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'Apparel'
-    },
-    {
-      id: 2,
-      name: 'Safari Hat',
-      price: '$24.99',
-      image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'Accessories'
-    },
-    {
-      id: 3,
-      name: 'Travel Water Bottle',
-      price: '$19.99',
-      image: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'Essentials'
-    },
-    {
-      id: 4,
-      name: 'Wildlife Guide Book',
-      price: '$34.99',
-      image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'Books'
-    },
-    {
-      id: 5,
-      name: 'Adventure Backpack',
-      price: '$89.99',
-      image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'Gear'
-    },
-    {
-      id: 6,
-      name: 'Binoculars',
-      price: '$149.99',
-      image: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'Equipment'
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [cart, setCart] = useState([]);
+  const [addingToCart, setAddingToCart] = useState(null);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const data = await api.get('/products');
+      setProducts(data);
+      setError(null);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      setError('Failed to load products. Please try again.');
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  const handleAddToCart = async (productId) => {
+    setAddingToCart(productId);
+    try {
+      // In a real app, you would add to cart via API
+      await api.post('/cart', { productId, quantity: 1 });
+      
+      // Update local cart state
+      setCart(prev => [...prev, { productId, quantity: 1 }]);
+      
+      // Show success message (you can add a toast notification here)
+      console.log('Added to cart:', productId);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    } finally {
+      setAddingToCart(null);
+    }
+  };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading products...</p>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="error-container">
+        <i className="fas fa-exclamation-circle"></i>
+        <h2>Oops! Something went wrong</h2>
+        <p>{error}</p>
+        <button className="retry-btn" onClick={fetchProducts}>
+          <i className="fas fa-redo"></i> Try Again
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="shop-page">
@@ -69,21 +91,43 @@ const Shop = () => {
             <p className="shop-section-description">Quality equipment and merchandise for your East African adventures</p>
           </div>
 
-          <div className="shop-products-grid">
-            {products.map(product => (
-              <div className="shop-product-card" key={product.id}>
-                <div className="shop-product-image">
-                  <img src={product.image} alt={product.name} />
-                  <span className="shop-product-category">{product.category}</span>
+          {products.length === 0 ? (
+            <div className="no-products">
+              <i className="fas fa-box-open"></i>
+              <h3>No Products Available</h3>
+              <p>Check back soon for new merchandise.</p>
+            </div>
+          ) : (
+            <div className="shop-products-grid">
+              {products.map(product => (
+                <div className="shop-product-card" key={product.id}>
+                  <div className="shop-product-image">
+                    <img src={product.image} alt={product.name} />
+                    <span className="shop-product-category">{product.category}</span>
+                  </div>
+                  <div className="shop-product-info">
+                    <h3 className="shop-product-name">{product.name}</h3>
+                    <div className="shop-product-price">{product.price || '$0.00'}</div>
+                    <button 
+                      className="shop-add-to-cart" 
+                      onClick={() => handleAddToCart(product.id)}
+                      disabled={addingToCart === product.id}
+                    >
+                      {addingToCart === product.id ? (
+                        <>
+                          <i className="fas fa-spinner fa-spin"></i> Adding...
+                        </>
+                      ) : (
+                        <>
+                          <i className="fas fa-shopping-cart"></i> Add to Cart
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
-                <div className="shop-product-info">
-                  <h3 className="shop-product-name">{product.name}</h3>
-                  <div className="shop-product-price">{product.price}</div>
-                  <button className="shop-add-to-cart">Add to Cart</button>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* Shop Info */}
           <div className="shop-info-grid">

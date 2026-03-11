@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom'; // Remove BrowserRouter
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Events from './pages/Events';
@@ -17,6 +17,18 @@ import Shop from './pages/Shop';
 import WhyChooseUs from './pages/WhyChooseUs';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
+import WhatsAppButton from './components/WhatsAppButton';
+import EventDetail from './pages/EventDetail';
+
+// Admin imports
+import AdminLayout from './components/admin/AdminLayout';
+import AdminLogin from './pages/admin/Login';
+import AdminDashboard from './pages/admin/Dashboard';
+import AdminBookings from './pages/admin/Bookings';
+import AdminMessages from './pages/admin/Messages';
+import AdminSubscribers from './pages/admin/Subscribers';
+import AdminSettings from './pages/admin/Settings';
+import ProtectedRoute from './components/admin/ProtectedRoute';
 
 import './App.css';
 
@@ -37,6 +49,7 @@ function App() {
     <div className="App">
       <Navbar />
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/events" element={<Events />} />
         <Route path="/safaris" element={<Safaris />} />
@@ -45,17 +58,33 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/register" element={<Register />} />
 
-  <Route path="/destinations/uganda" element={<UgandaDestinations />} />
-  <Route path="/destinations/kenya" element={<KenyaDestinations />} />
-  <Route path="/destinations/tanzania" element={<TanzaniaDestinations />} />
+        <Route path="/destinations/uganda" element={<UgandaDestinations />} />
+        <Route path="/destinations/kenya" element={<KenyaDestinations />} />
+        <Route path="/destinations/tanzania" element={<TanzaniaDestinations />} />
 
-  <Route path="/about" element={<AboutUs />} />
-  <Route path="/shop" element={<Shop />} />
-  <Route path="/why-choose-us" element={<WhyChooseUs />} />
-  <Route path="/privacy" element={<Privacy />} />
-  <Route path="/terms" element={<Terms />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/why-choose-us" element={<WhyChooseUs />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/events/:eventSlug" element={<EventDetail />} />
+
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        }>
+          <Route index element={<AdminDashboard />} />
+          <Route path="bookings" element={<AdminBookings />} />
+          <Route path="messages" element={<AdminMessages />} />
+          <Route path="subscribers" element={<AdminSubscribers />} />
+          <Route path="settings" element={<AdminSettings />} />
+          
+        </Route>
       </Routes>
-      
+      <WhatsAppButton />
     </div>
   );
 }

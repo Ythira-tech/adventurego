@@ -12,6 +12,13 @@ const Footer = () => {
     { name: 'Contact', url: '/contact' }
   ];
 
+  // Legal Links - moved to right column
+  const legalLinks = [
+    { name: 'Privacy Policy', url: '/privacy' },
+    { name: 'Terms & Conditions', url: '/terms' },
+    { name: 'Contact Us', url: '/contact' }
+  ];
+
   // Updated Social Links with real URLs
   const socialLinks = [
     { name: 'facebook', icon: 'fab fa-facebook-f', url: 'https://www.facebook.com/share/1aYFgptMxd/' },
@@ -23,13 +30,6 @@ const Footer = () => {
   const contactInfo = [
     { type: 'phone', icon: 'fas fa-phone-alt', value: '+254 711 480 765', url: 'tel:+254711480765' },
     { type: 'email', icon: 'fas fa-envelope', value: 'hello@adventurego.co.ke', url: 'mailto:hello@adventurego.co.ke' },
-  ];
-
-  // Legal Links
-  const legalLinks = [
-    { name: 'Privacy Policy', url: '/privacy' },
-    { name: 'Terms & Conditions', url: '/terms' },
-    { name: 'Contact Us', url: '/contact' }
   ];
 
   return (
@@ -66,27 +66,34 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Column 2: Quick Links + Legal Links (side by side) */}
           <div className="footer-col">
-            <h3 className="footer-title">Quick Navigation</h3>
-            <ul className="footer-links">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
-                  <Link to={link.url}>
-                    <i className="fas fa-chevron-right"></i> {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            
-            {/* Legal Links - Now in a visible section */}
-            <h3 className="footer-title legal-title">Legal</h3>
-            <div className="legal-links-footer">
-              {legalLinks.map((link) => (
-                <Link key={link.name} to={link.url} className="legal-link">
-                  {link.name}
-                </Link>
-              ))}
+            <div className="links-container">
+              {/* Quick Links Section */}
+              <div className="links-section">
+                <h3 className="footer-title">Quick Navigation</h3>
+                <ul className="footer-links">
+                  {quickLinks.map((link) => (
+                    <li key={link.name}>
+                      <Link to={link.url}>
+                        <i className="fas fa-chevron-right"></i> {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Legal Links Section - Now to the right */}
+              <div className="links-section">
+                <h3 className="footer-title">Legal</h3>
+                <div className="legal-links-footer">
+                  {legalLinks.map((link) => (
+                    <Link key={link.name} to={link.url} className="legal-link">
+                      <i className="fas fa-chevron-right"></i> {link.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>

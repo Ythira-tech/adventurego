@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import { PaystackButton } from 'react-paystack';
+import { api } from '../services/api';
 import './Booking.css';
 
 const Booking = () => {
   const [step, setStep] = useState(1);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const [paymentChoice, setPaymentChoice] = useState('payLater'); // 'payNow' or 'payLater'
   const [bookingData, setBookingData] = useState({
     // Step 1: Personal Information
     firstName: '',
@@ -14,11 +19,10 @@ const Booking = () => {
     destination: '',
     tourType: '',
     travelDate: '',
-    numberOfPeople: '1',
+    numberOfAdults: '1',
+    numberOfChildren: '0',
     
     // Step 3: Additional Preferences
-    accommodation: 'standard',
-    meals: 'included',
     specialRequests: ''
   });
 
@@ -48,15 +52,41 @@ const Booking = () => {
     window.scrollTo(0, 0);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // In a real app, you would submit to a backend here
-    console.log('Booking submitted:', bookingData);
-    setStep(4); // Success step
+  const handleSubmit = async (paymentReference = null) => {
+    setSubmitting(true);
+    setSubmitError(null);
+    
+    try {
+      // Prepare booking data with payment info
+      const bookingPayload = {
+        ...bookingData,
+        paymentChoice,
+        paymentReference: paymentReference?.reference || null,
+        paymentStatus: paymentChoice === 'payNow' ? 'paid' : 'pending',
+        totalPrice: calculateTotal()
+      };
+      
+      // Submit booking to backend
+      await api.post('/bookings', bookingPayload);
+      setStep(4); // Success step
+    } catch (error) {
+      console.error('Error submitting booking:', error);
+      setSubmitError('Failed to submit booking. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handlePaystackSuccess = (reference) => {
+    console.log('Payment successful:', reference);
+    handleSubmit(reference);
+  };
+
+  const handlePaystackClose = () => {
+    alert('Payment cancelled. You can still submit a booking request without payment.');
   };
 
   const calculateTotal = () => {
-    // Simple calculation logic
     const basePrices = {
       'everest': 1400,
       'annapurna': 1600,
@@ -66,30 +96,35 @@ const Booking = () => {
       'custom': 1000
     };
     
-    const people = parseInt(bookingData.numberOfPeople) || 1;
+    const adults = parseInt(bookingData.numberOfAdults) || 1;
+    const children = parseInt(bookingData.numberOfChildren) || 0;
     const basePrice = basePrices[bookingData.destination] || 1000;
     
-    let total = basePrice * people;
-    
-    // Add accommodation upgrade
-    if (bookingData.accommodation === 'deluxe') total += people * 200;
-    if (bookingData.accommodation === 'luxury') total += people * 500;
+    // Children half price
+    let total = (basePrice * adults) + (basePrice * 0.5 * children);
     
     return total;
   };
 
+  // Paystack configuration
+  const componentProps = {
+    email: bookingData.email,
+    amount: calculateTotal() * 100, // Paystack uses kobo/cents
+    currency: 'KES',
+    publicKey: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
+    text: 'Pay Now',
+    onSuccess: handlePaystackSuccess,
+    onClose: handlePaystackClose,
+    metadata: {
+      firstName: bookingData.firstName,
+      lastName: bookingData.lastName,
+      destination: bookingData.destination,
+      travelDate: bookingData.travelDate
+    }
+  };
+
   return (
     <div className="booking-page">
-      {/* Hero Section */}
-      <section className="booking-hero">
-        <div className="hero-overlay">
-          <div className="container">
-            <h1>Book Your Adventure</h1>
-            <p>Start your journey with us - Simple, secure, and seamless booking</p>
-          </div>
-        </div>
-      </section>
-
       <div className="container">
         {/* Booking Progress */}
         <div className="booking-progress">
@@ -105,7 +140,7 @@ const Booking = () => {
           <div className={`progress-line ${step >= 3 ? 'active' : ''}`}></div>
           <div className={`progress-step ${step >= 3 ? 'active' : ''}`}>
             <div className="step-number">3</div>
-            <div className="step-label">Preferences</div>
+            <div className="step-label">Payment</div>
           </div>
           <div className={`progress-line ${step >= 4 ? 'active' : ''}`}></div>
           <div className={`progress-step ${step >= 4 ? 'active' : ''}`}>
@@ -114,13 +149,21 @@ const Booking = () => {
           </div>
         </div>
 
+        {/* Error Message */}
+        {submitError && (
+          <div className="error-message">
+            <i className="fas fa-exclamation-circle"></i>
+            <p>{submitError}</p>
+          </div>
+        )}
+
         {/* Step 1: Personal Information */}
         {step === 1 && (
           <div className="booking-step">
             <h2>Personal Information</h2>
             <p>Let's start with your basic details</p>
             
-            <form className="booking-form">
+            <form className="booking-form" onSubmit={(e) => e.preventDefault()}>
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="firstName">First Name *</label>
@@ -192,7 +235,7 @@ const Booking = () => {
             <h2>Trip Details</h2>
             <p>Tell us about your adventure preferences</p>
             
-            <form className="booking-form">
+            <form className="booking-form" onSubmit={(e) => e.preventDefault()}>
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="destination">Select Destination *</label>
@@ -241,20 +284,37 @@ const Booking = () => {
                     required
                   />
                 </div>
-                
+              </div>
+
+              <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="numberOfPeople">Number of People *</label>
+                  <label htmlFor="numberOfAdults">Number of Adults *</label>
                   <select
-                    id="numberOfPeople"
-                    name="numberOfPeople"
-                    value={bookingData.numberOfPeople}
+                    id="numberOfAdults"
+                    name="numberOfAdults"
+                    value={bookingData.numberOfAdults}
                     onChange={handleChange}
                     required
                   >
                     {[1,2,3,4,5,6,7,8,9,10].map(num => (
-                      <option key={num} value={num}>{num} {num === 1 ? 'Person' : 'People'}</option>
+                      <option key={num} value={num}>{num} {num === 1 ? 'Adult' : 'Adults'}</option>
                     ))}
                   </select>
+                </div>
+                
+                <div className="form-group">
+                  <label htmlFor="numberOfChildren">Number of Children</label>
+                  <select
+                    id="numberOfChildren"
+                    name="numberOfChildren"
+                    value={bookingData.numberOfChildren}
+                    onChange={handleChange}
+                  >
+                    {[0,1,2,3,4,5,6,7,8].map(num => (
+                      <option key={num} value={num}>{num} {num === 1 ? 'Child' : 'Children'}</option>
+                    ))}
+                  </select>
+                  <small className="form-text">Children (under 12) get 50% discount</small>
                 </div>
               </div>
               
@@ -263,154 +323,121 @@ const Booking = () => {
                   <i className="fas fa-arrow-left"></i> Back
                 </button>
                 <button type="button" className="next-btn" onClick={nextStep}>
-                  Next: Preferences <i className="fas fa-arrow-right"></i>
+                  Next: Payment Options <i className="fas fa-arrow-right"></i>
                 </button>
               </div>
             </form>
           </div>
         )}
 
-        {/* Step 3: Additional Preferences */}
+        {/* Step 3: Payment Options */}
         {step === 3 && (
           <div className="booking-step">
-            <h2>Additional Preferences</h2>
-            <p>Customize your adventure experience</p>
+            <h2>Payment Options</h2>
+            <p>Choose how you'd like to proceed with your booking</p>
             
-            <div className="preferences-grid">
-              <div className="preference-card">
-                <h3>Accommodation Type</h3>
-                <div className="option-group">
-                  <label className="option-item">
-                    <input
-                      type="radio"
-                      name="accommodation"
-                      value="standard"
-                      checked={bookingData.accommodation === 'standard'}
-                      onChange={handleChange}
-                    />
-                    <div className="option-content">
-                      <h4>Standard</h4>
-                      <p>Comfortable hotels & lodges</p>
-                      <span className="price-tag">Included</span>
-                    </div>
+            <form className="booking-form" onSubmit={(e) => e.preventDefault()}>
+              {/* Special Requests */}
+              <div className="form-group full-width">
+                <label htmlFor="specialRequests">Special Requests & Preferences</label>
+                <textarea
+                  id="specialRequests"
+                  name="specialRequests"
+                  value={bookingData.specialRequests}
+                  onChange={handleChange}
+                  rows="4"
+                  placeholder="Tell us about any dietary requirements, accessibility needs, accommodation preferences, specific activities you're interested in, or special occasions you're celebrating..."
+                ></textarea>
+              </div>
+              
+              {/* Payment Options */}
+              <div className="payment-options">
+                <h3>How would you like to proceed?</h3>
+                
+                <div className={`payment-option-card ${paymentChoice === 'payNow' ? 'selected' : ''}`}>
+                  <input
+                    type="radio"
+                    id="payNow"
+                    name="paymentChoice"
+                    value="payNow"
+                    checked={paymentChoice === 'payNow'}
+                    onChange={(e) => setPaymentChoice(e.target.value)}
+                  />
+                  <label htmlFor="payNow">
+                    <strong>Pay Now (Instant Confirmation)</strong>
+                    <p>Pay immediately via M-Pesa or Card using Paystack. Your booking is confirmed instantly after payment.</p>
                   </label>
-                  
-                  <label className="option-item">
-                    <input
-                      type="radio"
-                      name="accommodation"
-                      value="deluxe"
-                      checked={bookingData.accommodation === 'deluxe'}
-                      onChange={handleChange}
-                    />
-                    <div className="option-content">
-                      <h4>Deluxe</h4>
-                      <p>4-star hotels with premium amenities</p>
-                      <span className="price-tag">+$200/person</span>
-                    </div>
-                  </label>
-                  
-                  <label className="option-item">
-                    <input
-                      type="radio"
-                      name="accommodation"
-                      value="luxury"
-                      checked={bookingData.accommodation === 'luxury'}
-                      onChange={handleChange}
-                    />
-                    <div className="option-content">
-                      <h4>Luxury</h4>
-                      <p>5-star resorts & boutique hotels</p>
-                      <span className="price-tag">+$500/person</span>
-                    </div>
+                </div>
+                
+                <div className={`payment-option-card ${paymentChoice === 'payLater' ? 'selected' : ''}`}>
+                  <input
+                    type="radio"
+                    id="payLater"
+                    name="paymentChoice"
+                    value="payLater"
+                    checked={paymentChoice === 'payLater'}
+                    onChange={(e) => setPaymentChoice(e.target.value)}
+                  />
+                  <label htmlFor="payLater">
+                    <strong>Book Now, Pay Later (Pending Confirmation)</strong>
+                    <p>We'll hold your spot and contact you within 24 hours to confirm details and arrange payment.</p>
                   </label>
                 </div>
               </div>
               
-              <div className="preference-card">
-                <h3>Meal Plan</h3>
-                <div className="option-group">
-                  <label className="option-item">
-                    <input
-                      type="radio"
-                      name="meals"
-                      value="included"
-                      checked={bookingData.meals === 'included'}
-                      onChange={handleChange}
-                    />
-                    <div className="option-content">
-                      <h4>Full Board</h4>
-                      <p>Breakfast, lunch, and dinner included</p>
+              {/* Price Summary */}
+              <div className="price-summary">
+                <h3>Price Summary</h3>
+                <div className="summary-details">
+                  <div className="summary-row">
+                    <span>Adults ({bookingData.numberOfAdults})</span>
+                    <span>${(parseInt(bookingData.numberOfAdults) || 1) * (tours.find(t => t.id === bookingData.destination) ? parseInt(tours.find(t => t.id === bookingData.destination).price.substring(1)) : 1000)}</span>
+                  </div>
+                  {parseInt(bookingData.numberOfChildren) > 0 && (
+                    <div className="summary-row">
+                      <span>Children ({bookingData.numberOfChildren}) - 50% off</span>
+                      <span>${(parseInt(bookingData.numberOfChildren) || 0) * (tours.find(t => t.id === bookingData.destination) ? parseInt(tours.find(t => t.id === bookingData.destination).price.substring(1)) * 0.5 : 500)}</span>
                     </div>
-                  </label>
-                  
-                  <label className="option-item">
-                    <input
-                      type="radio"
-                      name="meals"
-                      value="breakfast"
-                      checked={bookingData.meals === 'breakfast'}
-                      onChange={handleChange}
-                    />
-                    <div className="option-content">
-                      <h4>Breakfast Only</h4>
-                      <p>Daily breakfast included</p>
-                    </div>
-                  </label>
-                  
-                  <label className="option-item">
-                    <input
-                      type="radio"
-                      name="meals"
-                      value="none"
-                      checked={bookingData.meals === 'none'}
-                      onChange={handleChange}
-                    />
-                    <div className="option-content">
-                      <h4>Self-Catered</h4>
-                      <p>Arrange your own meals</p>
-                    </div>
-                  </label>
+                  )}
+                  <div className="summary-total">
+                    <span>Total Estimated Cost</span>
+                    <span className="total-amount">${calculateTotal()}</span>
+                  </div>
+                  <p className="summary-note">* Final price may vary based on season and availability</p>
                 </div>
               </div>
-            </div>
-            
-            <div className="form-group full-width">
-              <label htmlFor="specialRequests">Special Requests</label>
-              <textarea
-                id="specialRequests"
-                name="specialRequests"
-                value={bookingData.specialRequests}
-                onChange={handleChange}
-                rows="4"
-                placeholder="Any dietary requirements, accessibility needs, or special requests..."
-              ></textarea>
-            </div>
-            
-            {/* Price Summary */}
-            <div className="price-summary">
-              <h3>Price Summary</h3>
-              <div className="summary-details">
-                <div className="summary-row">
-                  <span>Base Price ({bookingData.numberOfPeople} {bookingData.numberOfPeople === '1' ? 'person' : 'people'})</span>
-                  <span>${calculateTotal()}</span>
-                </div>
-                <div className="summary-total">
-                  <span>Total Estimated Cost</span>
-                  <span className="total-amount">${calculateTotal()}</span>
-                </div>
-                <p className="summary-note">* Final price may vary based on season and availability</p>
+              
+              <div className="button-group">
+                <button type="button" className="prev-btn" onClick={prevStep}>
+                  <i className="fas fa-arrow-left"></i> Back
+                </button>
+                
+                {paymentChoice === 'payNow' ? (
+                  <PaystackButton
+                    {...componentProps}
+                    className="paystack-btn"
+                    disabled={submitting || !bookingData.email}
+                  />
+                ) : (
+                  <button 
+                    type="button" 
+                    className="submit-btn" 
+                    onClick={() => handleSubmit()}
+                    disabled={submitting}
+                  >
+                    {submitting ? (
+                      <>
+                        <i className="fas fa-spinner fa-spin"></i> Submitting...
+                      </>
+                    ) : (
+                      <>
+                        Submit Booking Request <i className="fas fa-paper-plane"></i>
+                      </>
+                    )}
+                  </button>
+                )}
               </div>
-            </div>
-            
-            <div className="button-group">
-              <button type="button" className="prev-btn" onClick={prevStep}>
-                <i className="fas fa-arrow-left"></i> Back
-              </button>
-              <button type="button" className="submit-btn" onClick={handleSubmit}>
-                Complete Booking <i className="fas fa-check"></i>
-              </button>
-            </div>
+            </form>
           </div>
         )}
 
@@ -420,9 +447,11 @@ const Booking = () => {
             <div className="confirmation-icon">
               <i className="fas fa-check-circle"></i>
             </div>
-            <h2>Booking Confirmed!</h2>
+            <h2>Booking {paymentChoice === 'payNow' ? 'Confirmed!' : 'Request Received!'}</h2>
             <p className="confirmation-message">
-              Thank you for booking with AdventureGo! We've received your request and will contact you within 24 hours to confirm the details.
+              {paymentChoice === 'payNow' 
+                ? 'Thank you for your payment! Your booking is confirmed. Check your email for details.'
+                : 'Thank you for booking with AdventureGo! We\'ve received your request and will contact you within 24 hours to confirm the details.'}
             </p>
             
             <div className="confirmation-details">
@@ -443,12 +472,24 @@ const Booking = () => {
                   </span>
                 </div>
                 <div className="detail-item">
+                  <span className="detail-label">Travelers:</span>
+                  <span className="detail-value">
+                    {bookingData.numberOfAdults} Adults, {bookingData.numberOfChildren} Children
+                  </span>
+                </div>
+                <div className="detail-item">
                   <span className="detail-label">Travel Date:</span>
                   <span className="detail-value">{bookingData.travelDate || 'To be confirmed'}</span>
                 </div>
                 <div className="detail-item">
                   <span className="detail-label">Total Estimated:</span>
                   <span className="detail-value total-price">${calculateTotal()}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Payment Status:</span>
+                  <span className={`detail-value payment-status ${paymentChoice === 'payNow' ? 'paid' : 'pending'}`}>
+                    {paymentChoice === 'payNow' ? 'Paid' : 'Pending'}
+                  </span>
                 </div>
               </div>
             </div>
@@ -459,35 +500,27 @@ const Booking = () => {
                 <button className="print-btn" onClick={() => window.print()}>
                   <i className="fas fa-print"></i> Print Confirmation
                 </button>
-                <button className="home-btn" onClick={() => setStep(1)}>
+                <button className="home-btn" onClick={() => {
+                  setStep(1);
+                  setBookingData({
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    phone: '',
+                    destination: '',
+                    tourType: '',
+                    travelDate: '',
+                    numberOfAdults: '1',
+                    numberOfChildren: '0',
+                    specialRequests: ''
+                  });
+                }}>
                   <i className="fas fa-home"></i> Book Another Adventure
                 </button>
               </div>
             </div>
           </div>
         )}
-
-        {/* Quick Booking Tips */}
-        <div className="booking-tips">
-          <h3>Quick Booking Tips</h3>
-          <div className="tips-grid">
-            <div className="tip">
-              <i className="fas fa-shield-alt"></i>
-              <h4>Secure Payment</h4>
-              <p>All transactions are encrypted and secure</p>
-            </div>
-            <div className="tip">
-              <i className="fas fa-undo"></i>
-              <h4>Flexible Cancellation</h4>
-              <p>Free cancellation up to 30 days before departure</p>
-            </div>
-            <div className="tip">
-              <i className="fas fa-headset"></i>
-              <h4>24/7 Support</h4>
-              <p>Our adventure experts are always here to help</p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

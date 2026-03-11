@@ -110,8 +110,18 @@
   border-radius: 2px;
 }
 
-.legal-title {
-  margin-top: 30px;
+/* Links Container - NEW: Side by side layout */
+.links-container {
+  display: flex;
+  gap: 40px;
+}
+
+.links-section {
+  flex: 1;
+}
+
+.links-section .footer-title {
+  margin-bottom: 20px;
 }
 
 /* Quick Links */
@@ -145,25 +155,32 @@
   color: #2ecc71;
 }
 
-/* Legal Links in Footer */
+/* Legal Links - UPDATED to match Quick Links style */
 .legal-links-footer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .legal-link {
   color: #b0b7c3;
   text-decoration: none;
-  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   transition: all 0.3s ease;
-  padding: 5px 0;
-  display: inline-block;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.legal-link i {
+  font-size: 0.8rem;
+  color: #2ecc71;
 }
 
 .legal-link:hover {
   color: #2ecc71;
-  transform: translateX(3px);
+  transform: translateX(5px);
 }
 
 /* Contact Bar */
@@ -252,6 +269,10 @@
   .contact-bar {
     gap: 30px;
   }
+  
+  .links-container {
+    gap: 30px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -262,6 +283,15 @@
   .footer-main {
     grid-template-columns: 1fr;
     gap: 35px;
+  }
+  
+  .links-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .links-section {
+    width: 100%;
   }
   
   .contact-bar {
@@ -286,6 +316,10 @@
     font-size: 0.8rem;
     padding: 6px 12px;
   }
+  
+  .legal-link {
+    font-size: 0.95rem;
+  }
 }
 
 @media (max-width: 576px) {
@@ -302,12 +336,13 @@
     margin-bottom: 20px;
   }
   
-  .footer-links li a {
+  .footer-links li a,
+  .legal-link {
     font-size: 0.95rem;
   }
   
-  .legal-link {
-    font-size: 0.9rem;
+  .links-container {
+    gap: 25px;
   }
   
   .contact-item {
@@ -320,5 +355,9 @@
   
   .copyright p {
     font-size: 0.85rem;
+  }
+  
+  .legal-link {
+    font-size: 0.9rem;
   }
 }

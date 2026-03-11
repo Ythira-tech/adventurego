@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { api } from '../services/api';
 import './Contact.css';
 
 const Contact = () => {
@@ -9,6 +10,8 @@ const Contact = () => {
     message: ''
   });
 
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e) => {
@@ -18,29 +21,36 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // In a real app, you would submit to a backend here
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-    }, 3000);
+    setSubmitting(true);
+    setSubmitError(null);
+    
+    try {
+      // Submit contact form to backend
+      await api.post('/contact', formData);
+      setIsSubmitted(true);
+      
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      }, 3000);
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      setSubmitError('Failed to send message. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <div className="contact-page">
-      {/* Hero Section */}
-      <section className="contact-hero">
-        </section>
-
       <div className="container">
         {/* Contact Content */}
         <div className="contact-content">
@@ -49,7 +59,6 @@ const Contact = () => {
             <p>Reach out to us through any of the channels below</p>
             
             <div className="contact-info-grid">
-
               <div className="contact-card">
                 <div className="contact-icon">
                   <i className="fas fa-phone"></i>
@@ -75,6 +84,14 @@ const Contact = () => {
             <h2>Send Us a Message</h2>
             <p>Fill out the form below and we'll get back to you within 24 hours</p>
             
+            {/* Error Message */}
+            {submitError && (
+              <div className="error-message">
+                <i className="fas fa-exclamation-circle"></i>
+                <p>{submitError}</p>
+              </div>
+            )}
+            
             {isSubmitted ? (
               <div className="success-message">
                 <i className="fas fa-check-circle"></i>
@@ -93,6 +110,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     placeholder="Enter your full name"
+                    disabled={submitting}
                   />
                 </div>
 
@@ -106,6 +124,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     placeholder="Enter your email address"
+                    disabled={submitting}
                   />
                 </div>
 
@@ -119,6 +138,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     placeholder="What is this regarding?"
+                    disabled={submitting}
                   />
                 </div>
 
@@ -132,11 +152,20 @@ const Contact = () => {
                     required
                     rows="6"
                     placeholder="Tell us about your inquiry..."
+                    disabled={submitting}
                   ></textarea>
                 </div>
 
-                <button type="submit" className="submit-btn">
-                  <i className="fas fa-paper-plane"></i> Send Message
+                <button type="submit" className="submit-btn" disabled={submitting}>
+                  {submitting ? (
+                    <>
+                      <i className="fas fa-spinner fa-spin"></i> Sending...
+                    </>
+                  ) : (
+                    <>
+                      <i className="fas fa-paper-plane"></i> Send Message
+                    </>
+                  )}
                 </button>
               </form>
             )}

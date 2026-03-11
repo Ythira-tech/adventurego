@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { api } from '../services/api';
 import './Register.css';
 import registerImage from '../assets/register-bg.jpg';
 
@@ -14,6 +15,9 @@ const Register = () => {
   });
 
   const [activeTab, setActiveTab] = useState('traveler');
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -23,15 +27,46 @@ const Register = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Add registration logic here
+    setSubmitting(true);
+    setSubmitError(null);
+
+    // Validate password match
+    if (formData.password !== formData.confirmPassword) {
+      setSubmitError('Passwords do not match');
+      setSubmitting(false);
+      return;
+    }
+
+    try {
+      // Submit registration to backend
+      await api.post('/register', {
+        ...formData,
+        userType: activeTab
+      });
+      setSubmitSuccess(true);
+      
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        password: '',
+        confirmPassword: '',
+        newsletter: true
+      });
+    } catch (error) {
+      console.error('Error registering:', error);
+      setSubmitError(error.response?.data?.message || 'Registration failed. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleGoogleSignUp = () => {
-    console.log('Google sign-up initiated');
-    // Add Google OAuth logic here
+    window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
   };
 
   const userTypes = [
@@ -39,6 +74,36 @@ const Register = () => {
     { id: 'guide', label: 'Tour Guide', icon: 'fas fa-compass', description: 'List your services and tours' },
     { id: 'partner', label: 'Business Partner', icon: 'fas fa-handshake', description: 'Collaborate with us' }
   ];
+
+  // Calculate password strength
+  const getPasswordStrength = () => {
+    const password = formData.password;
+    if (!password) return { strength: 0, label: 'None' };
+    
+    let strength = 0;
+    if (password.length >= 8) strength += 1;
+    if (/[A-Z]/.test(password)) strength += 1;
+    if (/[0-9]/.test(password)) strength += 1;
+    if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+    
+    const labels = ['Weak', 'Fair', 'Good', 'Strong'];
+    return { strength, label: labels[strength - 1] || 'Weak' };
+  };
+
+  const passwordStrength = getPasswordStrength();
+
+  if (submitSuccess) {
+    return (
+      <div className="register-success">
+        <div className="success-content">
+          <i className="fas fa-check-circle"></i>
+          <h2>Registration Successful!</h2>
+          <p>Thank you for joining AdventureGo. Please check your email to verify your account.</p>
+          <a href="/login" className="login-link-btn">Go to Login</a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="register-page">
@@ -58,6 +123,7 @@ const Register = () => {
                   key={type.id}
                   className={`type-tab ${activeTab === type.id ? 'active' : ''}`}
                   onClick={() => setActiveTab(type.id)}
+                  type="button"
                 >
                   <i className={type.icon}></i>
                   <span className="type-label">{type.label}</span>
@@ -67,9 +133,17 @@ const Register = () => {
             </div>
           </div>
 
+          {/* Error Message */}
+          {submitError && (
+            <div className="error-message">
+              <i className="fas fa-exclamation-circle"></i>
+              <p>{submitError}</p>
+            </div>
+          )}
+
           {/* Google Sign Up */}
           <div className="social-signup">
-            <button className="google-btn" onClick={handleGoogleSignUp}>
+            <button className="google-btn" onClick={handleGoogleSignUp} type="button">
               <div className="google-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                   <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
@@ -100,6 +174,7 @@ const Register = () => {
                   onChange={handleChange}
                   placeholder="Enter your first name"
                   required
+                  disabled={submitting}
                 />
               </div>
               <div className="form-group">
@@ -114,6 +189,7 @@ const Register = () => {
                   onChange={handleChange}
                   placeholder="Enter your last name"
                   required
+                  disabled={submitting}
                 />
               </div>
             </div>
@@ -130,6 +206,7 @@ const Register = () => {
                 onChange={handleChange}
                 placeholder="Enter your email"
                 required
+                disabled={submitting}
               />
             </div>
 
@@ -145,6 +222,7 @@ const Register = () => {
                 onChange={handleChange}
                 placeholder="+254 700 123 456"
                 required
+                disabled={submitting}
               />
             </div>
 
@@ -161,11 +239,21 @@ const Register = () => {
                   onChange={handleChange}
                   placeholder="Create a password"
                   required
+                  disabled={submitting}
                 />
-                <div className="password-strength">
-                  <div className="strength-bar"></div>
-                  <span className="strength-text">Password strength: Weak</span>
-                </div>
+                {formData.password && (
+                  <div className="password-strength">
+                    <div className="strength-bars">
+                      {[1,2,3,4].map(level => (
+                        <div 
+                          key={level}
+                          className={`strength-bar ${level <= passwordStrength.strength ? 'active' : ''}`}
+                        ></div>
+                      ))}
+                    </div>
+                    <span className="strength-text">Strength: {passwordStrength.label}</span>
+                  </div>
+                )}
               </div>
               <div className="form-group">
                 <label htmlFor="confirmPassword">
@@ -179,7 +267,14 @@ const Register = () => {
                   onChange={handleChange}
                   placeholder="Confirm your password"
                   required
+                  disabled={submitting}
                 />
+                {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                  <div className="password-error">
+                    <i className="fas fa-exclamation-circle"></i>
+                    <span>Passwords do not match</span>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -190,6 +285,7 @@ const Register = () => {
                 name="newsletter"
                 checked={formData.newsletter}
                 onChange={handleChange}
+                disabled={submitting}
               />
               <label htmlFor="newsletter">
                 I want to receive updates about new adventures, special offers, and exclusive content
@@ -202,14 +298,21 @@ const Register = () => {
                 id="terms"
                 name="terms"
                 required
+                disabled={submitting}
               />
               <label htmlFor="terms">
                 I agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>
               </label>
             </div>
 
-            <button type="submit" className="submit-btn">
-              Create Account
+            <button type="submit" className="submit-btn" disabled={submitting}>
+              {submitting ? (
+                <>
+                  <i className="fas fa-spinner fa-spin"></i> Creating Account...
+                </>
+              ) : (
+                'Create Account'
+              )}
             </button>
 
             <div className="login-link">

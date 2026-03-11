@@ -1,108 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { api } from '../services/api';
 import './PopularActivities.css';
 
 const PopularActivities = () => {
-  // All activities data
-  const allActivities = [
-    {
-      id: 1,
-      title: 'Safari Game Drives',
-      image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'wildlife',
-      featured: true
-    },
-    {
-      id: 2,
-      title: 'Mountain Hiking',
-      image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'adventure',
-      featured: true
-    },
-    {
-      id: 3,
-      title: 'Hot Air Balloon Safaris',
-      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'scenic',
-      featured: true
-    },
-    {
-      id: 4,
-      title: 'White Water Rafting',
-      image: 'https://images.unsplash.com/photo-1601924994987-69e26d50dc26?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'adventure',
-      featured: true
-    },
-    {
-      id: 5,
-      title: 'Cultural Village Tours',
-      image: 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'cultural',
-      featured: false
-    },
-    {
-      id: 6,
-      title: 'Bird Watching',
-      image: 'https://images.unsplash.com/photo-1518834103328-93d45986dce1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'wildlife',
-      featured: false
-    },
-    {
-      id: 7,
-      title: 'Beach & Island Getaways',
-      image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'leisure',
-      featured: false
-    },
-    {
-      id: 8,
-      title: 'Photography Expeditions',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'specialty',
-      featured: false
-    },
-    {
-      id: 9,
-      title: 'Wildlife Tracking',
-      image: 'https://images.unsplash.com/photo-1573843989-c9d7ad3f2001?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'wildlife',
-      featured: false
-    },
-    {
-      id: 10,
-      title: 'Camping & Stargazing',
-      image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'adventure',
-      featured: false
-    }
-  ];
+  const [activities, setActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
-  // State for filtering
+  useEffect(() => {
+    fetchActivities();
+  }, []);
+
+  const fetchActivities = async () => {
+    try {
+      const data = await api.get('/activities');
+      setActivities(data);
+    } catch (error) {
+      console.error('Error fetching activities:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const [activeFilter, setActiveFilter] = useState('all');
   const [visibleCount, setVisibleCount] = useState(8);
 
-  // Filter activities
-  const filteredActivities = activeFilter === 'all' 
-    ? allActivities 
-    : allActivities.filter(activity => activity.category === activeFilter);
-
-  // Activities to display
-  const displayedActivities = filteredActivities.slice(0, visibleCount);
-
-  // Filter options
+  // ✅ UPDATED FILTERS - Only these 7 options
   const filters = [
     { id: 'all', label: 'All Activities' },
-    { id: 'adventure', label: 'Adventure' },
+    { id: 'hiking', label: 'Hiking' },
     { id: 'wildlife', label: 'Wildlife' },
-    { id: 'cultural', label: 'Cultural' },
-    { id: 'leisure', label: 'Leisure' },
-    { id: 'scenic', label: 'Scenic' },
-    { id: 'specialty', label: 'Specialty' }
+    { id: 'beach-safari', label: 'Beach Safari' },
+    { id: 'camping', label: 'Camping' },
+    { id: 'glamping', label: 'Glamping' },
+    { id: 'nature', label: 'Nature' }
   ];
+
+  if (loading) {
+    return <div className="loading">Loading activities...</div>;
+  }
+
+  const filteredActivities = activeFilter === 'all' 
+    ? activities 
+    : activities.filter(activity => activity.category === activeFilter);
+
+  const displayedActivities = filteredActivities.slice(0, visibleCount);
 
   return (
     <section className="activities-popular-section">
       <div className="activities-container">
-        {/* Section Header */}
         <div className="activities-header-section">
           <h6 className="activities-subtitle">Experience Adventure</h6>
           <h2 className="activities-main-title">
@@ -113,7 +59,7 @@ const PopularActivities = () => {
           </p>
         </div>
 
-        {/* Filter Buttons */}
+        {/* ✅ UPDATED FILTER BUTTONS */}
         <div className="activities-filter-buttons">
           {filters.map(filter => (
             <button
@@ -121,7 +67,7 @@ const PopularActivities = () => {
               className={`activities-filter-btn ${activeFilter === filter.id ? 'activities-filter-active' : ''}`}
               onClick={() => {
                 setActiveFilter(filter.id);
-                setVisibleCount(8);
+                setVisibleCount(filter.id === 'all' ? 8 : 6);
               }}
             >
               {filter.label}
@@ -129,19 +75,20 @@ const PopularActivities = () => {
           ))}
         </div>
 
-        {/* Activities Grid - PHOTOS ONLY */}
         <div className="activities-photos-grid">
           {displayedActivities.map((activity) => (
-            <div 
-              className="activities-photo-card" 
-              key={activity.id}
-            >
-              {/* Image Container - PHOTO ONLY */}
+            <div className="activities-photo-card" key={activity.id}>
               <div className="activities-photo-container">
-                <img src={activity.image} alt={activity.title} className="activities-photo-image" />
+                <img 
+                  src={`http://localhost:5000${activity.image}`} 
+                  alt={activity.title} 
+                  className="activities-photo-image"
+                  onError={(e) => {
+                    console.log('Image failed to load:', activity.image);
+                    e.target.src = 'https://via.placeholder.com/300x200?text=Image+Not+Found';
+                  }}
+                />
                 <div className="activities-photo-overlay"></div>
-                
-                {/* Title Label */}
                 <div className="activities-title-container">
                   <h3 className="activities-photo-title">{activity.title}</h3>
                 </div>
@@ -150,14 +97,20 @@ const PopularActivities = () => {
           ))}
         </div>
 
-        {/* Load More Button */}
         {visibleCount < filteredActivities.length && (
           <div className="activities-load-more">
             <button 
               className="activities-more-btn"
-              onClick={() => setVisibleCount(prev => prev + 8)}
+              onClick={() => {
+                if (activeFilter === 'all') {
+                  setVisibleCount(prev => prev + 8);
+                } else {
+                  setVisibleCount(prev => prev + 3);
+                }
+              }}
             >
-              <i className="fas fa-plus"></i> Load More Activities
+              <i className="fas fa-plus"></i> 
+              {activeFilter === 'all' ? 'Load More Activities' : `Load More ${filters.find(f => f.id === activeFilter)?.label}`}
             </button>
           </div>
         )}
