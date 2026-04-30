@@ -1,10 +1,10 @@
 /* UpcomingEvents.css - Horizontal Scroll Layout */
 .events-upcoming-section {
   padding: 60px 0;
-  background-color: #f8f9fa;
+  background-color: #eff5ef;
   position: relative;
   overflow: hidden;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: montserrat, sans-serif;
 }
 
 .events-container {
@@ -27,6 +27,7 @@
   text-transform: uppercase;
   letter-spacing: 1.5px;
   margin-bottom: 8px;
+  font-family: montserrat, sans-serif;
 }
 
 .events-title {
@@ -35,6 +36,7 @@
   color: #121212;
   margin-bottom: 12px;
   line-height: 1.2;
+  font-family: montserrat, sans-serif;
 }
 
 .events-title .events-highlight {

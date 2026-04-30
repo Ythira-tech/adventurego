@@ -41,12 +41,7 @@ const WhyChooseUs = () => {
     }
   ];
 
-  const stats = [
-    { number: '98%', label: 'Customer Satisfaction' },
-    { number: '5000+', label: 'Happy Adventurers' },
-    { number: '50+', label: 'Expert Guides' },
-    { number: '3', label: 'Countries Covered' }
-  ];
+
 
   return (
     <div className="why-choose-us-page">
@@ -62,27 +57,11 @@ const WhyChooseUs = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="why-stats-section">
-        <div className="why-container">
-          <div className="why-stats-grid">
-            {stats.map((stat, index) => (
-              <div className="why-stat-card" key={index}>
-                <div className="why-stat-number">{stat.number}</div>
-                <div className="why-stat-label">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* Reasons Grid */}
       <section className="why-reasons-section">
         <div className="why-container">
-          <div className="why-section-header">
-            <h2 className="why-section-title">What Makes Us Different</h2>
-            <p className="why-section-description">Discover why thousands of adventurers trust us with their East African journeys</p>
-          </div>
 
           <div className="why-reasons-grid">
             {reasons.map(reason => (

@@ -1,13 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { api } from '../services/api';
 import './UpcomingEvents.css';
+
+// Import local images from src/assets/events
+import event1 from '../assets/events/Adventure.jpeg';
+import event2 from '../assets/events/Advlogo.jpeg';
+import event3 from '../assets/events/Ololokwe.jpg';
+import event4 from '../assets/events/register-bg.jpg';
+import event5 from '../assets/events/Waterfall.jpg';
+import event6 from '../assets/events/Adventure.jpeg';
 
 const UpcomingEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [imageErrors, setImageErrors] = useState({});
 
   const scrollContainerRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -16,28 +21,83 @@ const UpcomingEvents = () => {
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
 
-  useEffect(() => {
-    fetchEvents();
-  }, []);
-
-  const fetchEvents = async () => {
-    try {
-      setLoading(true);
-      const data = await api.get('/events');
-      console.log('Events loaded:', data);
-      setEvents(data);
-      setError(null);
-    } catch (error) {
-      console.error('Error fetching events:', error);
-      setError('Failed to load events. Please try again.');
-    } finally {
-      setLoading(false);
+  // Hardcoded events data with local images
+  const eventsData = [
+    {
+      id: 1,
+      title: 'Mangunyo Forest, Aberdares',
+      date: 'Dec 6',
+      location: 'Aberdares National Park',
+      type: 'Hiking',
+      price: 'Ksh.3,850',
+      seats: 4,
+      image: event1,
+      slug: 'mangunyo-forest-aberdares'
+    },
+    {
+      id: 2,
+      title: 'Mt. Ol Doinyo Lengai',
+      date: 'Dec 12-14',
+      location: 'Tanzania',
+      type: 'Adventure',
+      price: 'Ksh.54,900',
+      seats: 8,
+      image: event2,
+      slug: 'mt-ol-doinyo-lengai'
+    },
+    {
+      id: 3,
+      title: 'Chyulu Hills',
+      date: 'Dec 22-23',
+      location: 'Amboselli',
+      type: 'Wildlife',
+      price: 'Ksh.15,000',
+      seats: 2,
+      image: event3,
+      slug: 'chyulu-hills'
+    },
+    {
+      id: 4,
+      title: 'Photography Workshop',
+      date: 'Oct 3-8',
+      location: 'Amboseli',
+      type: 'Workshop',
+      price: 'Contact for Price',
+      seats: 10,
+      image: event4,
+      slug: 'photography-workshop'
+    },
+    {
+      id: 5,
+      title: 'Maasai Mara Safari',
+      date: 'Jan 15-18',
+      location: 'Narok',
+      type: 'Wildlife',
+      price: 'Ksh.22,500',
+      seats: 6,
+      image: event5,
+      slug: 'maasai-mara-safari'
+    },
+    {
+      id: 6,
+      title: 'Mt. Kenya Summit',
+      date: 'Feb 5-7',
+      location: 'Nyeri',
+      type: 'Hiking',
+      price: 'Ksh.18,900',
+      seats: 3,
+      image: event6,
+      slug: 'mt-kenya-summit'
     }
-  };
+  ];
 
-  const handleImageError = (eventId) => {
-    setImageErrors(prev => ({ ...prev, [eventId]: true }));
-  };
+  useEffect(() => {
+    // Simulate loading
+    setTimeout(() => {
+      setEvents(eventsData);
+      setLoading(false);
+    }, 500);
+  }, []);
 
   const checkScrollPosition = () => {
     const container = scrollContainerRef.current;
@@ -93,7 +153,6 @@ const UpcomingEvents = () => {
   };
 
   if (loading) return <div className="loading">Loading events...</div>;
-  if (error) return <div className="error">{error}</div>;
 
   return (
     <section className="events-upcoming-section">
@@ -128,26 +187,9 @@ const UpcomingEvents = () => {
                     className="events-card-item" 
                     key={event.id}
                     style={{ 
-                      backgroundImage: imageErrors[event.id] 
-                        ? 'none' 
-                        : `url(http://localhost:5000${event.image}?t=${Date.now()})`,
-                      backgroundColor: imageErrors[event.id] ? '#2ecc71' : 'transparent'
+                      backgroundImage: `url(${event.image})`
                     }}
                   >
-                    {imageErrors[event.id] && (
-                      <div style={{ 
-                        color: 'white', 
-                        padding: '20px', 
-                        textAlign: 'center',
-                        height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}>
-                        {event.title}
-                      </div>
-                    )}
-                    
                     <Link to={`/events/${event.slug}`} className="events-view-details-btn">
                       <i className="fas fa-eye"></i> View Details
                     </Link>

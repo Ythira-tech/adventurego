@@ -1,7 +1,7 @@
 /* TopDestinations.css - Clean Country Cards */
 .top-destinations {
   padding: 80px 0;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background-color: #eff5ef;
   position: relative;
   overflow: hidden;
 }
@@ -33,7 +33,7 @@
 }
 
 .section-subtitle {
-  font-family: 'Open Sans', sans-serif;
+  font-family: montserrat, sans-serif;
   font-size: 1rem;
   font-weight: 700;
   color: #2ecc71;

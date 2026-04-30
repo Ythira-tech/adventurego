@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { PaystackButton } from 'react-paystack';
 import { api } from '../services/api';
 import './Booking.css';
 
@@ -8,6 +7,7 @@ const Booking = () => {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [paymentChoice, setPaymentChoice] = useState('payLater'); // 'payNow' or 'payLater'
+  const [mpesaNumber, setMpesaNumber] = useState('');
   const [bookingData, setBookingData] = useState({
     // Step 1: Personal Information
     firstName: '',
@@ -25,6 +25,9 @@ const Booking = () => {
     // Step 3: Additional Preferences
     specialRequests: ''
   });
+
+  // M-Pesa Till Number (Buy Goods & Services)
+  const MPESA_TILL_NUMBER = '5496587';
 
   const tours = [
     { id: 'everest', name: 'Everest Base Camp Trek', duration: '14 days', price: '$1400' },
@@ -61,9 +64,10 @@ const Booking = () => {
       const bookingPayload = {
         ...bookingData,
         paymentChoice,
-        paymentReference: paymentReference?.reference || null,
-        paymentStatus: paymentChoice === 'payNow' ? 'paid' : 'pending',
-        totalPrice: calculateTotal()
+        paymentReference: paymentReference || null,
+        paymentStatus: paymentChoice === 'payNow' ? 'pending_payment' : 'pending',
+        totalPrice: calculateTotal(),
+        mpesaNumber: paymentChoice === 'payNow' ? mpesaNumber : null
       };
       
       // Submit booking to backend
@@ -77,13 +81,22 @@ const Booking = () => {
     }
   };
 
-  const handlePaystackSuccess = (reference) => {
-    console.log('Payment successful:', reference);
-    handleSubmit(reference);
-  };
-
-  const handlePaystackClose = () => {
-    alert('Payment cancelled. You can still submit a booking request without payment.');
+  const handleMpesaPayment = () => {
+    if (!mpesaNumber || mpesaNumber.length < 10) {
+      setSubmitError('Please enter a valid M-Pesa phone number');
+      return;
+    }
+    
+    // Show payment instructions
+    const totalAmount = calculateTotal();
+    const message = `Please complete payment of $${totalAmount} (approx KES ${(totalAmount * 145).toLocaleString()}) via M-Pesa Buy Goods & Services:\n\n` +
+      `Till Number: ${MPESA_TILL_NUMBER}\n` +
+      `Account/Reference: ADV-${Date.now().toString(36).toUpperCase()}\n\n` +
+      `After payment, click OK to submit your booking request.`;
+    
+    if (window.confirm(message)) {
+      handleSubmit(`MPESA-${Date.now()}`);
+    }
   };
 
   const calculateTotal = () => {
@@ -104,23 +117,6 @@ const Booking = () => {
     let total = (basePrice * adults) + (basePrice * 0.5 * children);
     
     return total;
-  };
-
-  // Paystack configuration
-  const componentProps = {
-    email: bookingData.email,
-    amount: calculateTotal() * 100, // Paystack uses kobo/cents
-    currency: 'KES',
-    publicKey: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
-    text: 'Pay Now',
-    onSuccess: handlePaystackSuccess,
-    onClose: handlePaystackClose,
-    metadata: {
-      firstName: bookingData.firstName,
-      lastName: bookingData.lastName,
-      destination: bookingData.destination,
-      travelDate: bookingData.travelDate
-    }
   };
 
   return (
@@ -364,8 +360,8 @@ const Booking = () => {
                     onChange={(e) => setPaymentChoice(e.target.value)}
                   />
                   <label htmlFor="payNow">
-                    <strong>Pay Now (Instant Confirmation)</strong>
-                    <p>Pay immediately via M-Pesa or Card using Paystack. Your booking is confirmed instantly after payment.</p>
+                    <strong>Pay Now via M-Pesa (Instant Confirmation)</strong>
+                    <p>Pay immediately via M-Pesa Buy Goods & Services. Your booking will be submitted after payment.</p>
                   </label>
                 </div>
                 
@@ -384,6 +380,39 @@ const Booking = () => {
                   </label>
                 </div>
               </div>
+
+              {/* M-Pesa Details (shown only if Pay Now selected) */}
+              {paymentChoice === 'payNow' && (
+                <div className="mpesa-details">
+                  <h3>M-Pesa Payment Details</h3>
+                  <div className="mpesa-info">
+                    <div className="mpesa-card">
+                      <i className="fas fa-store"></i>
+                      <div className="mpesa-info-text">
+                        <span className="label">Paybill/Till Number:</span>
+                        <span className="value">{MPESA_TILL_NUMBER}</span>
+                      </div>
+                    </div>
+                    <div className="mpesa-note">
+                      <i className="fas fa-info-circle"></i>
+                      <p>Open your M-Pesa app, go to Lipa Na M-Pesa, select Buy Goods & Services, enter Till Number <strong>{MPESA_TILL_NUMBER}</strong>, enter the amount, and complete payment.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="form-group">
+                    <label htmlFor="mpesaNumber">M-Pesa Phone Number (for payment reference)</label>
+                    <input
+                      type="tel"
+                      id="mpesaNumber"
+                      name="mpesaNumber"
+                      value={mpesaNumber}
+                      onChange={(e) => setMpesaNumber(e.target.value)}
+                      placeholder="e.g., 0712345678"
+                    />
+                    <small>Enter the M-Pesa number you'll use for payment (optional but helpful for tracking)</small>
+                  </div>
+                </div>
+              )}
               
               {/* Price Summary */}
               <div className="price-summary">
@@ -400,10 +429,15 @@ const Booking = () => {
                     </div>
                   )}
                   <div className="summary-total">
-                    <span>Total Estimated Cost</span>
+                    <span>Total Estimated Cost (USD)</span>
                     <span className="total-amount">${calculateTotal()}</span>
                   </div>
+                  <div className="summary-row kes-estimate">
+                    <span>Estimated in KES (~145 KES/USD)</span>
+                    <span>KES {(calculateTotal() * 145).toLocaleString()}</span>
+                  </div>
                   <p className="summary-note">* Final price may vary based on season and availability</p>
+                  <p className="summary-note">* Payment will be via M-Pesa Buy Goods & Services - Till No: {MPESA_TILL_NUMBER}</p>
                 </div>
               </div>
               
@@ -413,11 +447,22 @@ const Booking = () => {
                 </button>
                 
                 {paymentChoice === 'payNow' ? (
-                  <PaystackButton
-                    {...componentProps}
-                    className="paystack-btn"
-                    disabled={submitting || !bookingData.email}
-                  />
+                  <button 
+                    type="button" 
+                    className="submit-btn mpesa-btn" 
+                    onClick={handleMpesaPayment}
+                    disabled={submitting}
+                  >
+                    {submitting ? (
+                      <>
+                        <i className="fas fa-spinner fa-spin"></i> Processing...
+                      </>
+                    ) : (
+                      <>
+                        <i className="fas fa-mobile-alt"></i> Pay via M-Pesa & Submit
+                      </>
+                    )}
+                  </button>
                 ) : (
                   <button 
                     type="button" 
@@ -447,12 +492,23 @@ const Booking = () => {
             <div className="confirmation-icon">
               <i className="fas fa-check-circle"></i>
             </div>
-            <h2>Booking {paymentChoice === 'payNow' ? 'Confirmed!' : 'Request Received!'}</h2>
+            <h2>Booking {paymentChoice === 'payNow' ? 'Submitted!' : 'Request Received!'}</h2>
             <p className="confirmation-message">
               {paymentChoice === 'payNow' 
-                ? 'Thank you for your payment! Your booking is confirmed. Check your email for details.'
-                : 'Thank you for booking with AdventureGo! We\'ve received your request and will contact you within 24 hours to confirm the details.'}
+                ? 'Thank you for your booking! Once we verify your M-Pesa payment, we will send a confirmation email within 24 hours.'
+                : 'Thank you for booking with AdventureGo! We\'ve received your request and will contact you within 24 hours to confirm the details and arrange payment.'}
             </p>
+            
+            {paymentChoice === 'payNow' && (
+              <div className="payment-reminder">
+                <i className="fas fa-info-circle"></i>
+                <div>
+                  <strong>Payment Reminder:</strong>
+                  <p>Please send payment of <strong>KES {(calculateTotal() * 145).toLocaleString()}</strong> to M-Pesa Buy Goods & Services - Till Number <strong>{MPESA_TILL_NUMBER}</strong></p>
+                  <p className="small">Use your phone number <strong>{mpesaNumber || bookingData.phone}</strong> for the transaction.</p>
+                </div>
+              </div>
+            )}
             
             <div className="confirmation-details">
               <h3>Booking Summary</h3>
@@ -482,13 +538,13 @@ const Booking = () => {
                   <span className="detail-value">{bookingData.travelDate || 'To be confirmed'}</span>
                 </div>
                 <div className="detail-item">
-                  <span className="detail-label">Total Estimated:</span>
+                  <span className="detail-label">Total Amount:</span>
                   <span className="detail-value total-price">${calculateTotal()}</span>
                 </div>
                 <div className="detail-item">
                   <span className="detail-label">Payment Status:</span>
-                  <span className={`detail-value payment-status ${paymentChoice === 'payNow' ? 'paid' : 'pending'}`}>
-                    {paymentChoice === 'payNow' ? 'Paid' : 'Pending'}
+                  <span className={`detail-value payment-status ${paymentChoice === 'payNow' ? 'pending' : 'pending'}`}>
+                    {paymentChoice === 'payNow' ? 'Awaiting Payment' : 'Pending Confirmation'}
                   </span>
                 </div>
               </div>
@@ -514,6 +570,7 @@ const Booking = () => {
                     numberOfChildren: '0',
                     specialRequests: ''
                   });
+                  setMpesaNumber('');
                 }}>
                   <i className="fas fa-home"></i> Book Another Adventure
                 </button>

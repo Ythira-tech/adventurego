@@ -61,7 +61,7 @@
 
 .contact-info-section > p {
   text-align: center;
-  color: #666;
+  color: #3a3a3a;
   margin-bottom: 40px;
   font-size: 1.1rem;
 }
@@ -90,7 +90,7 @@
 .contact-icon {
   width: 70px;
   height: 70px;
-  background: linear-gradient(135deg, #2e86c1, #1a5276);
+  background: linear-gradient(to right, #4CAF50, #81C784);
   border-radius: 50%;
   display: flex;
   align-items: center;

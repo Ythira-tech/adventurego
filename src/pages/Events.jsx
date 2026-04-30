@@ -1,48 +1,130 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../services/api';
+import { Link } from 'react-router-dom';
 import './Events.css';
+
+// Import local images from src/assets/events
+import event1 from '../assets/events/Adventure.jpeg';
+import event2 from '../assets/events/Advlogo.jpeg';
+import event3 from '../assets/events/Ololokwe.jpg';
+import event4 from '../assets/events/register-bg.jpg';
+import event5 from '../assets/events/Waterfall.jpg';
+import event6 from '../assets/events/Adventure.jpeg';
 
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('All');
   const [visibleCount, setVisibleCount] = useState(9);
 
+  // Hardcoded events data with local images
+  const eventsData = [
+    {
+      id: 1,
+      title: 'Mangunyo Forest, Aberdares',
+      date: 'Dec 6',
+      location: 'Aberdares National Park',
+      type: 'Hiking',
+      price: 'Ksh.3,850',
+      seats: 4,
+      image: event1,
+      slug: 'mangunyo-forest-aberdares',
+      description: 'Explore the lush Mangunyo Forest in the Aberdares Range, known for its beautiful waterfalls, diverse birdlife, and stunning views.',
+      difficulty: 'Moderate',
+      driveDuration: '3-4 hours'
+    },
+    {
+      id: 2,
+      title: 'Mt. Ol Doinyo Lengai',
+      date: 'Dec 12-14',
+      location: 'Tanzania',
+      type: 'Adventure',
+      price: 'Ksh.54,900',
+      seats: 8,
+      image: event2,
+      slug: 'mt-ol-doinyo-lengai',
+      description: 'Conquer the "Mountain of God" - Ol Doinyo Lengai, an active volcano in Tanzania.',
+      difficulty: 'Challenging',
+      driveDuration: '6-7 hours'
+    },
+    {
+      id: 3,
+      title: 'Chyulu Hills',
+      date: 'Dec 22-23',
+      location: 'Amboselli',
+      type: 'Wildlife',
+      price: 'Ksh.15,000',
+      seats: 2,
+      image: event3,
+      slug: 'chyulu-hills',
+      description: 'Experience the beautiful Chyulu Hills with stunning views and wildlife sightings.',
+      difficulty: 'Easy',
+      driveDuration: '4-5 hours'
+    },
+    {
+      id: 4,
+      title: 'Photography Workshop',
+      date: 'Oct 3-8',
+      location: 'Amboseli',
+      type: 'Workshop',
+      price: 'Contact for Price',
+      seats: 10,
+      image: event4,
+      slug: 'photography-workshop',
+      description: 'Learn wildlife photography from professional photographers in the stunning Amboseli landscape.',
+      difficulty: 'Easy',
+      driveDuration: '4 hours'
+    },
+    {
+      id: 5,
+      title: 'Maasai Mara Safari',
+      date: 'Jan 15-18',
+      location: 'Narok',
+      type: 'Wildlife',
+      price: 'Ksh.22,500',
+      seats: 6,
+      image: event5,
+      slug: 'maasai-mara-safari',
+      description: 'Experience the world-famous Maasai Mara with its abundant wildlife and stunning landscapes.',
+      difficulty: 'Easy',
+      driveDuration: '5-6 hours'
+    },
+    {
+      id: 6,
+      title: 'Mt. Kenya Summit',
+      date: 'Feb 5-7',
+      location: 'Nyeri',
+      type: 'Hiking',
+      price: 'Ksh.18,900',
+      seats: 3,
+      image: event6,
+      slug: 'mt-kenya-summit',
+      description: 'Summit Mount Kenya, Africa\'s second-highest peak, with experienced guides.',
+      difficulty: 'Challenging',
+      driveDuration: '3-4 hours'
+    }
+  ];
+
   useEffect(() => {
-    fetchEvents();
+    // Simulate loading
+    setTimeout(() => {
+      setEvents(eventsData);
+      setLoading(false);
+    }, 500);
   }, []);
 
-  const fetchEvents = async () => {
-    try {
-      setLoading(true);
-      const data = await api.get('/events');
-      console.log('Fetched events:', data); // Debug log
-      setEvents(data);
-      setError(null);
-    } catch (error) {
-      console.error('Error fetching events:', error);
-      setError('Failed to load events. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Categories based on event types from your data
+  // Categories based on event types
   const categories = ['All', 'Hiking', 'Adventure', 'Wildlife', 'Workshop'];
 
-  // Filter events by type (not category)
+  // Filter events by type
   const filteredEvents = activeCategory === 'All' 
     ? events 
     : events.filter(event => event.type === activeCategory);
 
   const displayedEvents = filteredEvents.slice(0, visibleCount);
 
-  // Calculate spots remaining (if needed for progress bar)
   const calculateSpotsPercentage = (seats) => {
-    // Assuming seats is a number like 4 (available spots)
-    // You can adjust this logic based on how you want to display
-    return seats ? 100 - (seats * 10) : 50; // Just a placeholder calculation
+    const maxSeats = 10;
+    return ((maxSeats - seats) / maxSeats) * 100;
   };
 
   // Show loading state
@@ -51,20 +133,6 @@ const Events = () => {
       <div className="loading-container">
         <div className="loading-spinner"></div>
         <p>Loading events...</p>
-      </div>
-    );
-  }
-
-  // Show error state
-  if (error) {
-    return (
-      <div className="error-container">
-        <i className="fas fa-exclamation-circle"></i>
-        <h2>Oops! Something went wrong</h2>
-        <p>{error}</p>
-        <button className="retry-btn" onClick={fetchEvents}>
-          <i className="fas fa-redo"></i> Try Again
-        </button>
       </div>
     );
   }
@@ -134,7 +202,7 @@ const Events = () => {
                 <div key={event.id} className="event-card">
                   {/* Card Image with Type Badge */}
                   <div className="card-image">
-                    <img src={`http://localhost:5000${event.image}`} alt={event.title} />
+                    <img src={event.image} alt={event.title} />
                     <div className="category-badge">{event.type}</div>
                     <div className={`difficulty-badge difficulty-${event.difficulty?.toLowerCase() || 'moderate'}`}>
                       {event.difficulty || 'Moderate'}
@@ -183,12 +251,12 @@ const Events = () => {
 
                     {/* Card Footer */}
                     <div className="card-footer">
-                      <button className="btn-details">
+                      <Link to={`/events/${event.slug}`} className="btn-details">
                         <i className="far fa-eye"></i> View Details
-                      </button>
-                      <button className="btn-book">
+                      </Link>
+                      <Link to="/booking" className="btn-book">
                         <i className="far fa-calendar-check"></i> Book Now
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import './Register.css';
 import registerImage from '../assets/register-bg.jpg';
 
 const Register = () => {
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -12,6 +15,11 @@ const Register = () => {
     password: '',
     confirmPassword: '',
     newsletter: true
+  });
+
+  const [loginData, setLoginData] = useState({
+    email: '',
+    password: ''
   });
 
   const [activeTab, setActiveTab] = useState('traveler');
@@ -27,7 +35,14 @@ const Register = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleLoginChange = (e) => {
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleRegister = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     setSubmitError(null);
@@ -45,18 +60,15 @@ const Register = () => {
         ...formData,
         userType: activeTab
       });
-      setSubmitSuccess(true);
       
-      // Reset form
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        password: '',
-        confirmPassword: '',
-        newsletter: true
-      });
+      // Store user info in localStorage (simplified)
+      localStorage.setItem('user', JSON.stringify({ email: formData.email, name: formData.firstName }));
+      localStorage.setItem('isAuthenticated', 'true');
+      
+      setSubmitSuccess(true);
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1500);
     } catch (error) {
       console.error('Error registering:', error);
       setSubmitError(error.response?.data?.message || 'Registration failed. Please try again.');
@@ -65,8 +77,35 @@ const Register = () => {
     }
   };
 
-  const handleGoogleSignUp = () => {
-    window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      // Simple validation - in real app, this would call your backend
+      if (loginData.email && loginData.password) {
+        // Mock successful login
+        localStorage.setItem('user', JSON.stringify({ email: loginData.email, name: 'User' }));
+        localStorage.setItem('isAuthenticated', 'true');
+        navigate('/dashboard');
+      } else {
+        setSubmitError('Please enter email and password');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setSubmitError('Login failed. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleGoogleAuth = () => {
+    // In a real app, this would redirect to Google OAuth
+    // For demo, we'll simulate successful Google login
+    localStorage.setItem('user', JSON.stringify({ email: 'user@gmail.com', name: 'Google User' }));
+    localStorage.setItem('isAuthenticated', 'true');
+    navigate('/dashboard');
   };
 
   const userTypes = [
@@ -92,14 +131,13 @@ const Register = () => {
 
   const passwordStrength = getPasswordStrength();
 
-  if (submitSuccess) {
+  if (submitSuccess && !isLogin) {
     return (
       <div className="register-success">
         <div className="success-content">
           <i className="fas fa-check-circle"></i>
           <h2>Registration Successful!</h2>
-          <p>Thank you for joining AdventureGo. Please check your email to verify your account.</p>
-          <a href="/login" className="login-link-btn">Go to Login</a>
+          <p>Welcome to AdventureGo! Redirecting to your dashboard...</p>
         </div>
       </div>
     );
@@ -111,25 +149,22 @@ const Register = () => {
         {/* Left Side - Form */}
         <div className="register-form-container">
           <div className="form-header">
-            <h1>Join Adventure<span className="highlight">Go</span></h1>
-            <p>Create your account to start your East African adventure</p>
-          </div>
-
-          {/* User Type Selection */}
-          <div className="user-type-selector">
-            <div className="type-tabs">
-              {userTypes.map(type => (
-                <button
-                  key={type.id}
-                  className={`type-tab ${activeTab === type.id ? 'active' : ''}`}
-                  onClick={() => setActiveTab(type.id)}
-                  type="button"
-                >
-                  <i className={type.icon}></i>
-                  <span className="type-label">{type.label}</span>
-                  <span className="type-description">{type.description}</span>
-                </button>
-              ))}
+            <h1>Adventure<span className="highlight">Go</span></h1>
+            
+            {/* Toggle between Login and Sign Up */}
+            <div className="auth-toggle">
+              <button 
+                className={`toggle-btn ${!isLogin ? 'active' : ''}`}
+                onClick={() => setIsLogin(false)}
+              >
+                Sign Up
+              </button>
+              <button 
+                className={`toggle-btn ${isLogin ? 'active' : ''}`}
+                onClick={() => setIsLogin(true)}
+              >
+                Log In
+              </button>
             </div>
           </div>
 
@@ -141,9 +176,9 @@ const Register = () => {
             </div>
           )}
 
-          {/* Google Sign Up */}
+          {/* Google Sign Up/Login */}
           <div className="social-signup">
-            <button className="google-btn" onClick={handleGoogleSignUp} type="button">
+            <button className="google-btn" onClick={handleGoogleAuth} type="button">
               <div className="google-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                   <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
@@ -152,195 +187,221 @@ const Register = () => {
                   <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
                 </svg>
               </div>
-              <span>Sign up with Google</span>
+              <span>{isLogin ? 'Sign in with Google' : 'Sign up with Google'}</span>
             </button>
             <div className="divider">
               <span>or</span>
             </div>
           </div>
 
-          {/* Registration Form */}
-          <form className="registration-form" onSubmit={handleSubmit}>
-            <div className="form-row">
+          {!isLogin ? (
+            /* Registration Form */
+            <form className="registration-form" onSubmit={handleRegister}>
+              {/* User Type Selection */}
+              <div className="user-type-selector">
+                <div className="type-tabs">
+                  {userTypes.map(type => (
+                    <button
+                      key={type.id}
+                      className={`type-tab ${activeTab === type.id ? 'active' : ''}`}
+                      onClick={() => setActiveTab(type.id)}
+                      type="button"
+                    >
+                      <i className={type.icon}></i>
+                      <span className="type-label">{type.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="firstName">First Name *</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    placeholder="Enter your first name"
+                    required
+                    disabled={submitting}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="lastName">Last Name *</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    placeholder="Enter your last name"
+                    required
+                    disabled={submitting}
+                  />
+                </div>
+              </div>
+
               <div className="form-group">
-                <label htmlFor="firstName">
-                  <i className="fas fa-user"></i> First Name
-                </label>
+                <label htmlFor="email">Email Address *</label>
                 <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  value={formData.firstName}
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
-                  placeholder="Enter your first name"
+                  placeholder="Enter your email"
                   required
                   disabled={submitting}
                 />
               </div>
+
               <div className="form-group">
-                <label htmlFor="lastName">
-                  <i className="fas fa-user"></i> Last Name
-                </label>
+                <label htmlFor="phone">Phone Number *</label>
                 <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName}
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
                   onChange={handleChange}
-                  placeholder="Enter your last name"
+                  placeholder="+254 700 123 456"
                   required
                   disabled={submitting}
                 />
               </div>
-            </div>
 
-            <div className="form-group">
-              <label htmlFor="email">
-                <i className="fas fa-envelope"></i> Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter your email"
-                required
-                disabled={submitting}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="phone">
-                <i className="fas fa-phone"></i> Phone Number
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="+254 700 123 456"
-                required
-                disabled={submitting}
-              />
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="password">
-                  <i className="fas fa-lock"></i> Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Create a password"
-                  required
-                  disabled={submitting}
-                />
-                {formData.password && (
-                  <div className="password-strength">
-                    <div className="strength-bars">
-                      {[1,2,3,4].map(level => (
-                        <div 
-                          key={level}
-                          className={`strength-bar ${level <= passwordStrength.strength ? 'active' : ''}`}
-                        ></div>
-                      ))}
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="password">Password *</label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Create a password"
+                    required
+                    disabled={submitting}
+                  />
+                  {formData.password && (
+                    <div className="password-strength">
+                      <div className="strength-bars">
+                        {[1,2,3,4].map(level => (
+                          <div 
+                            key={level}
+                            className={`strength-bar ${level <= passwordStrength.strength ? 'active' : ''}`}
+                          ></div>
+                        ))}
+                      </div>
+                      <span className="strength-text">Strength: {passwordStrength.label}</span>
                     </div>
-                    <span className="strength-text">Strength: {passwordStrength.label}</span>
-                  </div>
-                )}
+                  )}
+                </div>
+                <div className="form-group">
+                  <label htmlFor="confirmPassword">Confirm Password *</label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Confirm your password"
+                    required
+                    disabled={submitting}
+                  />
+                  {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                    <div className="password-error">
+                      <i className="fas fa-exclamation-circle"></i>
+                      <span>Passwords do not match</span>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="form-group">
-                <label htmlFor="confirmPassword">
-                  <i className="fas fa-lock"></i> Confirm Password
-                </label>
+
+              <div className="form-group checkbox-group">
                 <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
+                  type="checkbox"
+                  id="newsletter"
+                  name="newsletter"
+                  checked={formData.newsletter}
                   onChange={handleChange}
-                  placeholder="Confirm your password"
+                  disabled={submitting}
+                />
+                <label htmlFor="newsletter">
+                  I want to receive updates about new adventures, special offers, and exclusive content
+                </label>
+              </div>
+
+              <div className="form-group checkbox-group">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  name="terms"
                   required
                   disabled={submitting}
                 />
-                {formData.confirmPassword && formData.password !== formData.confirmPassword && (
-                  <div className="password-error">
-                    <i className="fas fa-exclamation-circle"></i>
-                    <span>Passwords do not match</span>
-                  </div>
+                <label htmlFor="terms">
+                  I agree to the <Link to="/terms">Terms of Service</Link> and <Link to="/privacy">Privacy Policy</Link>
+                </label>
+              </div>
+
+              <button type="submit" className="submit-btn" disabled={submitting}>
+                {submitting ? (
+                  <>
+                    <i className="fas fa-spinner fa-spin"></i> Creating Account...
+                  </>
+                ) : (
+                  'Create Account'
                 )}
+              </button>
+            </form>
+          ) : (
+            /* Login Form */
+            <form className="login-form" onSubmit={handleLogin}>
+              <div className="form-group">
+                <label htmlFor="login-email">Email Address *</label>
+                <input
+                  type="email"
+                  id="login-email"
+                  name="email"
+                  value={loginData.email}
+                  onChange={handleLoginChange}
+                  placeholder="Enter your email"
+                  required
+                  disabled={submitting}
+                />
               </div>
-            </div>
 
-            <div className="form-group checkbox-group">
-              <input
-                type="checkbox"
-                id="newsletter"
-                name="newsletter"
-                checked={formData.newsletter}
-                onChange={handleChange}
-                disabled={submitting}
-              />
-              <label htmlFor="newsletter">
-                I want to receive updates about new adventures, special offers, and exclusive content
-              </label>
-            </div>
-
-            <div className="form-group checkbox-group">
-              <input
-                type="checkbox"
-                id="terms"
-                name="terms"
-                required
-                disabled={submitting}
-              />
-              <label htmlFor="terms">
-                I agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>
-              </label>
-            </div>
-
-            <button type="submit" className="submit-btn" disabled={submitting}>
-              {submitting ? (
-                <>
-                  <i className="fas fa-spinner fa-spin"></i> Creating Account...
-                </>
-              ) : (
-                'Create Account'
-              )}
-            </button>
-
-            <div className="login-link">
-              Already have an account? <a href="/login">Sign in</a>
-            </div>
-          </form>
-
-          {/* Registration Benefits */}
-          <div className="registration-benefits">
-            <h3>Why Register?</h3>
-            <div className="benefits-grid">
-              <div className="benefit">
-                <i className="fas fa-gift"></i>
-                <h4>Exclusive Deals</h4>
-                <p>Access member-only discounts and early bird offers</p>
+              <div className="form-group">
+                <label htmlFor="login-password">Password *</label>
+                <input
+                  type="password"
+                  id="login-password"
+                  name="password"
+                  value={loginData.password}
+                  onChange={handleLoginChange}
+                  placeholder="Enter your password"
+                  required
+                  disabled={submitting}
+                />
               </div>
-              <div className="benefit">
-                <i className="fas fa-history"></i>
-                <h4>Quick Booking</h4>
-                <p>Save your details for faster reservations</p>
+
+              <div className="form-group forgot-password">
+                <Link to="/forgot-password">Forgot password?</Link>
               </div>
-              <div className="benefit">
-                <i className="fas fa-star"></i>
-                <h4>Reward Points</h4>
-                <p>Earn points on every booking for future discounts</p>
-              </div>
-            </div>
-          </div>
+
+              <button type="submit" className="submit-btn" disabled={submitting}>
+                {submitting ? (
+                  <>
+                    <i className="fas fa-spinner fa-spin"></i> Logging in...
+                  </>
+                ) : (
+                  'Log In'
+                )}
+              </button>
+            </form>
+          )}
         </div>
 
         {/* Right Side - Image/Info */}

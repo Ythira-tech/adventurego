@@ -2,7 +2,7 @@
 .footer {
   background-color: #121212;
   color: #b0b7c3;
-  padding: 50px 0 25px;
+  padding: 35px 0 15px;
   position: relative;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -51,6 +51,7 @@
   font-weight: 600;
   line-height: 1.4;
   margin-bottom: 5px;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .brand-description {

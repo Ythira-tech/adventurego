@@ -8,7 +8,7 @@
 /* Hero Section */
 .terms-hero-section {
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-              url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+              url('https://images.unsplash.com/photo-1617957718645-7680362d6312?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
   background-size: cover;
   background-position: center;
   height: 350px;
@@ -73,22 +73,6 @@
   margin: 0 auto;
 }
 
-.terms-section-card {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 2.2rem;
-  margin-bottom: 1.8rem;
-  border-left: 6px solid #667eea;
-  transition: all 0.3s ease;
-  border: 1px solid #e9ecef;
-}
-
-.terms-section-card:hover {
-  transform: translateX(8px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-  border-left-color: #764ba2;
-}
-
 .terms-section-title {
   color: #2c3e50;
   font-size: 1.5rem;
@@ -118,7 +102,7 @@
   content: "✓";
   position: absolute;
   left: 0;
-  color: #667eea;
+  color: green;
   font-weight: bold;
   font-size: 1.1rem;
 }

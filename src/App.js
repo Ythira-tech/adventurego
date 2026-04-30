@@ -19,6 +19,8 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import WhatsAppButton from './components/WhatsAppButton';
 import EventDetail from './pages/EventDetail';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 
 // Admin imports
 import AdminLayout from './components/admin/AdminLayout';
@@ -68,6 +70,8 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/events/:eventSlug" element={<EventDetail />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
 
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />

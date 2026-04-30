@@ -8,7 +8,7 @@
 /* Hero Section */
 .why-hero-section {
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-              url('https://images.unsplash.com/photo-1504851149312-7a075b496cc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+              url('https://images.unsplash.com/photo-1617957718645-7680362d6312?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
   background-size: cover;
   background-position: center;
   height: 400px;
@@ -152,7 +152,7 @@
 
 .why-reason-card:hover {
   transform: translateY(-10px);
-  border-color: #f5576c;
+  border-color: #81C784;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   background: white;
 }
@@ -178,7 +178,7 @@
 /* Testimonials */
 .why-testimonials-section {
   padding: 5rem 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(to right, #4CAF50, #81C784);
   color: white;
 }
 

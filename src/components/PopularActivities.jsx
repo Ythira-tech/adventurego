@@ -1,31 +1,160 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../services/api';
 import './PopularActivities.css';
+
+// Import local images from src/assets/activities
+// Update these paths to match your actual image filenames
+import activity1 from '../assets/activities/Hiking-1.jpg';
+import activity2 from '../assets/activities/Ololokwe.jpg';
+import activity3 from '../assets/activities/Hike.jpg';
+import activity4 from '../assets/activities/Wildlife-2.jpg';
+import activity5 from '../assets/activities/Wildlife-3.jpg';
+import activity6 from '../assets/activities/Wildlife-1.JPG';
+import activity7 from '../assets/activities/Beach-1.jpeg';
+import activity8 from '../assets/activities/Beach-2.jpeg';
+import activity9 from '../assets/activities/Beach-3.jpg';
+import activity10 from '../assets/activities/Camping-1.jpg';
+import activity11 from '../assets/activities/Camping-2.jpg';
+import activity12 from '../assets/activities/Camping-3.jpg';
+import activity13 from '../assets/activities/Glamping-1.jpg';
+import activity14 from '../assets/activities/Glamping-2.jpg';
+import activity15 from '../assets/activities/Glamping-3.jpg';
+import activity16 from '../assets/activities/Nature-1.jpg';
+import activity17 from '../assets/activities/Nature-2.jpg';
+import activity18 from '../assets/activities/Nature-3.jpg';
 
 const PopularActivities = () => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+
+  // Hardcoded activities data with local images
+  const activitiesData = [
+    // Hiking - 3 photos
+    {
+      id: 1,
+      title: 'Hiking',
+      image: activity1,
+      category: 'hiking'
+    },
+    {
+      id: 2,
+      title: 'Ololokwe',
+      image: activity2,
+      category: 'hiking'
+    },
+    {
+      id: 3,
+      title: 'Trekking',
+      image: activity3,
+      category: 'hiking'
+    },
+    // Wildlife - 3 photos
+    {
+      id: 4,
+      title: 'Dives',
+      image: activity4,
+      category: 'wildlife'
+    },
+    {
+      id: 5,
+      title: 'Waterbuck',
+      image: activity5,
+      category: 'wildlife'
+    },
+    {
+      id: 6,
+      title: 'Giraffe',
+      image: activity6,
+      category: 'wildlife'
+    },
+    // Beach Safari - 3 photos
+    {
+      id: 7,
+      title: 'Beach Safari',
+      image: activity7,
+      category: 'beach-safari'
+    },
+    {
+      id: 8,
+      title: 'Coastal Tour',
+      image: activity8,
+      category: 'beach-safari'
+    },
+    {
+      id: 9,
+      title: 'Beach Safari',
+      image: activity9,
+      category: 'beach-safari'
+    },
+    // Camping - 3 photos
+    {
+      id: 10,
+      title: 'Mountain Camping',
+      image: activity10,
+      category: 'camping'
+    },
+    {
+      id: 11,
+      title: 'Camping',
+      image: activity11,
+      category: 'camping'
+    },
+    {
+      id: 12,
+      title: 'Wilderness Camping',
+      image: activity12,
+      category: 'camping'
+    },
+    // Glamping - 3 photos
+    {
+      id: 13,
+      title: 'Luxury Glamping',
+      image: activity13,
+      category: 'glamping'
+    },
+    {
+      id: 14,
+      title: 'Glamping Resort',
+      image: activity14,
+      category: 'glamping'
+    },
+    {
+      id: 15,
+      title: 'Glamping Resort',
+      image: activity15,
+      category: 'glamping'
+    },
+    // Nature - 3 photos
+    {
+      id: 16,
+      title: 'Lake',
+      image: activity16,
+      category: 'nature'
+    },
+    {
+      id: 17,
+      title: 'Bush',
+      image: activity17,
+      category: 'nature'
+    },
+    {
+      id: 18,
+      title: 'Waterfall',
+      image: activity18,
+      category: 'nature'
+    }
+  ];
 
   useEffect(() => {
-    fetchActivities();
-  }, []);
-
-  const fetchActivities = async () => {
-    try {
-      const data = await api.get('/activities');
-      setActivities(data);
-    } catch (error) {
-      console.error('Error fetching activities:', error);
-    } finally {
+    // Simulate loading
+    setTimeout(() => {
+      setActivities(activitiesData);
       setLoading(false);
-    }
-  };
+    }, 500);
+  }, []);
 
   const [activeFilter, setActiveFilter] = useState('all');
   const [visibleCount, setVisibleCount] = useState(8);
 
-  // ✅ UPDATED FILTERS - Only these 7 options
   const filters = [
     { id: 'all', label: 'All Activities' },
     { id: 'hiking', label: 'Hiking' },
@@ -59,7 +188,6 @@ const PopularActivities = () => {
           </p>
         </div>
 
-        {/* ✅ UPDATED FILTER BUTTONS */}
         <div className="activities-filter-buttons">
           {filters.map(filter => (
             <button
@@ -80,11 +208,11 @@ const PopularActivities = () => {
             <div className="activities-photo-card" key={activity.id}>
               <div className="activities-photo-container">
                 <img 
-                  src={`http://localhost:5000${activity.image}`} 
+                  src={activity.image} 
                   alt={activity.title} 
                   className="activities-photo-image"
                   onError={(e) => {
-                    console.log('Image failed to load:', activity.image);
+                    console.log('Image failed to load:', activity.title);
                     e.target.src = 'https://via.placeholder.com/300x200?text=Image+Not+Found';
                   }}
                 />
