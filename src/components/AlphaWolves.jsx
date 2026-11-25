@@ -3,7 +3,6 @@ import './AlphaWolves.css';
 
 // Import all images from your assets folder
 import samuelImage from '../assets/guides/Alpha-1.jpeg';
-import aminaImage from '../assets/guides/Alpha-2.jpeg';
 import josephImage from '../assets/guides/Alpha-3.jpeg';
 import lydiaImage from '../assets/guides/Alpha-4.jpeg';
 import davidImage from '../assets/guides/Alpha-5.jpeg';
@@ -17,12 +16,6 @@ const AlphaWolves = () => {
       name: 'Michael Mwaniki',
       role: 'Guide/Logistics/Photographer',
       image: samuelImage, // Using imported image
-    },
-    {
-      id: 2,
-      name: 'Amina Hassan',
-      role: 'Mountain Expedition',
-      image: aminaImage,
     },
     {
       id: 3,

@@ -5,10 +5,13 @@ import PopularActivities from '../components/PopularActivities';
 import AlphaWolves from '../components/AlphaWolves';
 import Footer from '../components/Footer';
 
-import pictureOne from '../assets/home/Home-1.JPG';
-import pictureTwo from '../assets/home/Night.jpg';
-import pictureThree from '../assets/home/Ololokwe.jpg';
-import pictureFour from '../assets/home/Hike.jpg';
+import pictureOne from '../assets/home/Home-11.jpg';
+import pictureTwo from '../assets/home/Hero-1.jpeg';
+import pictureThree from '../assets/home/Hero-8.jpg';
+import pictureFour from '../assets/home/Ololokwe.jpg';
+import pictureFive from '../assets/home/Hero-2.jpeg';
+import pictureSix from '../assets/home/Hike.jpg';
+import pictureSeven from '../assets/home/Houses.jpg';
 import './Home.css';
 
 
@@ -37,6 +40,24 @@ const Home = () => {
       title: 'GO\nOUT\n&\nSTAY\nTHERE!',
       subtitle: 'AdventureGo East Africa',
       color: '#3498db'
+    },
+    {
+      image: pictureFive,
+      title: 'GO\nOUT\n&\nSTAY\nTHERE!',
+      subtitle: 'AdventureGo East Africa',
+      color: '#2ecc71'
+    },
+    {
+      image: pictureSix,
+      title: 'GO\nOUT\n&\nSTAY\nTHERE!',
+      subtitle: 'AdventureGo East Africa',
+      color: '#27ae60'
+    },
+    {
+      image: pictureSeven,
+      title: 'GO\nOUT\n&\nSTAY\nTHERE!',
+      subtitle: 'AdventureGo East Africa',
+      color: '#1abc9c'
     }
   ];
 
@@ -54,13 +75,13 @@ const Home = () => {
   const nextSlide = useCallback(() => {
     setDirection('right');
     setCurrentSlide((prev) => (prev + 1) % slides.length);
-  }, [slides.length]); // ✅ FIXED: Added slides.length dependency
+  }, [slides.length]);
 
   // Define prevSlide with proper dependencies
   const prevSlide = useCallback(() => {
     setDirection('left');
     setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  }, [slides.length]); // ✅ FIXED: Added slides.length dependency
+  }, [slides.length]);
 
   // Now useEffect can use nextSlide properly
   useEffect(() => {
@@ -68,7 +89,7 @@ const Home = () => {
       nextSlide();
     }, 5000);
     return () => clearInterval(interval);
-  }, [nextSlide]); // ✅ FIXED: Added nextSlide dependency
+  }, [nextSlide]);
 
   const goToSlide = useCallback((index) => {
     if (index === currentSlide) return;

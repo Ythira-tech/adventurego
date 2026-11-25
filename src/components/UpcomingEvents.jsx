@@ -7,8 +7,6 @@ import event1 from '../assets/events/Adventure.jpeg';
 import event2 from '../assets/events/Advlogo.jpeg';
 import event3 from '../assets/events/Ololokwe.jpg';
 import event4 from '../assets/events/register-bg.jpg';
-import event5 from '../assets/events/Waterfall.jpg';
-import event6 from '../assets/events/Adventure.jpeg';
 
 const UpcomingEvents = () => {
   const [events, setEvents] = useState([]);
@@ -66,28 +64,6 @@ const UpcomingEvents = () => {
       seats: 10,
       image: event4,
       slug: 'photography-workshop'
-    },
-    {
-      id: 5,
-      title: 'Maasai Mara Safari',
-      date: 'Jan 15-18',
-      location: 'Narok',
-      type: 'Wildlife',
-      price: 'Ksh.22,500',
-      seats: 6,
-      image: event5,
-      slug: 'maasai-mara-safari'
-    },
-    {
-      id: 6,
-      title: 'Mt. Kenya Summit',
-      date: 'Feb 5-7',
-      location: 'Nyeri',
-      type: 'Hiking',
-      price: 'Ksh.18,900',
-      seats: 3,
-      image: event6,
-      slug: 'mt-kenya-summit'
     }
   ];
 
